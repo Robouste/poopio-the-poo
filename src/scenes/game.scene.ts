@@ -18,12 +18,12 @@ export class GameScene {
 
 	private addHowToPlay(): void {
 		const firstLine = add([
-			text("Space/Tap to jump"),
+			text("Space/Tap to jump."),
 			pos(width() / 2, height() / 2 - 80),
 			anchor("center"),
 		]);
 		const secondLine = add([
-			text("Space/Tap again to double jump"),
+			text("Space/Tap again to double jump."),
 			pos(width() / 2, height() / 2 - 40),
 			anchor("center"),
 		]);
