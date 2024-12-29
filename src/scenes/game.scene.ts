@@ -17,12 +17,12 @@ export class GameScene {
 	private addHowToPlay(): void {
 		add([
 			text("Space/Tap to jump"),
-			pos(width() / 2, 80),
+			pos(width() / 2, height() / 2 - 80),
 			anchor("center"),
 		]);
 		add([
 			text("Space/Tap again to double jump"),
-			pos(width() / 2, 128),
+			pos(width() / 2, height() / 2 - 40),
 			anchor("center"),
 		]);
 	}
