@@ -3,7 +3,7 @@ import { PLATFORM_HEIGHT } from "../constants";
 import { SceneName } from "../enums";
 import { SoundTag } from "../enums/sound.enum";
 
-export class Bean {
+export class Player {
 	public ref: GameObj<SpriteComp | PosComp | AreaComp | BodyComp>;
 	public jumps = 2;
 

@@ -1,13 +1,13 @@
 import { PLATFORM_HEIGHT } from "../constants";
 import { GameHelper } from "../game.helper";
-import { Bean } from "../objects/bean.class";
+import { Player } from "../objects/player.class";
 
 export class GameScene {
-	constructor(bean: Bean) {
+	constructor(player: Player) {
 		GameHelper.addBackground();
 		setGravity(1600);
 
-		bean.init();
+		player.init();
 
 		this.addPlatform();
 		this.spawnTree();
