@@ -6,6 +6,7 @@ import { SpriteName } from "./enums/sprite-name.enum";
 import { Player } from "./objects/player.class";
 import { GameOverScene } from "./scenes/game-over.scene";
 import { GameScene } from "./scenes/game.scene";
+import { MainMenuScene } from "./scenes/main-menu.scene";
 
 kaplay();
 
@@ -28,4 +29,8 @@ scene(SceneName.LOSE, () => {
 	new GameOverScene(bean);
 });
 
-go(SceneName.GAME);
+scene(SceneName.MAIN_MENU, () => {
+	new MainMenuScene();
+});
+
+go(SceneName.MAIN_MENU);

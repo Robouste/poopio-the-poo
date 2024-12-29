@@ -13,26 +13,6 @@ export class GameScene {
 		this.addPlatform();
 		this.spawnTree();
 		this.spawnClouds();
-		this.addHowToPlay();
-	}
-
-	private addHowToPlay(): void {
-		const firstLine = add([
-			text("Space/Tap to jump."),
-			pos(width() / 2, height() / 2 - 80),
-			anchor("center"),
-		]);
-		const secondLine = add([
-			text("Space/Tap again to double jump."),
-			pos(width() / 2, height() / 2 - 40),
-			anchor("center"),
-		]);
-
-		// fade out text after 5 seconds
-		wait(5, () => {
-			destroy(firstLine);
-			destroy(secondLine);
-		});
 	}
 
 	private addPlatform(): void {
