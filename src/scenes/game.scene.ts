@@ -1,4 +1,5 @@
 import { PLATFORM_HEIGHT } from "../constants";
+import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
 import { Player } from "../objects/player.class";
 
@@ -11,20 +12,27 @@ export class GameScene {
 
 		this.addPlatform();
 		this.spawnTree();
+		this.spawnClouds();
 		this.addHowToPlay();
 	}
 
 	private addHowToPlay(): void {
-		add([
+		const firstLine = add([
 			text("Space/Tap to jump"),
 			pos(width() / 2, height() / 2 - 80),
 			anchor("center"),
 		]);
-		add([
+		const secondLine = add([
 			text("Space/Tap again to double jump"),
 			pos(width() / 2, height() / 2 - 40),
 			anchor("center"),
 		]);
+
+		// fade out text after 5 seconds
+		wait(5, () => {
+			destroy(firstLine);
+			destroy(secondLine);
+		});
 	}
 
 	private addPlatform(): void {
@@ -53,6 +61,22 @@ export class GameScene {
 
 		wait(rand(0.5, 1.5), () => {
 			this.spawnTree();
+		});
+	}
+
+	private spawnClouds(): void {
+		add([
+			sprite(SpriteName.CLOUD, {
+				// random size
+				height: rand(32, 64),
+				width: rand(64, 128),
+			}),
+			pos(width(), rand(0, height() * 0.75)),
+			move(LEFT, 50),
+		]);
+
+		wait(rand(1, 3), () => {
+			this.spawnClouds();
 		});
 	}
 }

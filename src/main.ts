@@ -11,6 +11,7 @@ kaplay();
 
 loadRoot("./"); // A good idea for Itch.io publishing later
 loadSprite(SpriteName.PLAYER, "sprites/player.png");
+loadSprite(SpriteName.CLOUD, "sprites/cloud.png");
 loadSound(SoundTag.JUMP, "sounds/fart.mp3");
 loadSound(SoundTag.GAME_OVER, "sounds/game-over.mp3");
 
