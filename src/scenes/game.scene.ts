@@ -1,18 +1,51 @@
+import { AudioPlay } from "kaplay";
 import { PLATFORM_HEIGHT } from "../constants";
+import { SceneName } from "../enums";
+import { Music } from "../enums/music.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
 import { Player } from "../objects/player.class";
 
 export class GameScene {
+	private _score = 0;
+	public get score(): string {
+		return this._score.toString();
+	}
+	public set score(value: number) {
+		this._score = value;
+	}
+
+	private _bgm: AudioPlay;
+
 	constructor(player: Player) {
 		GameHelper.addBackground();
 		setGravity(1600);
 
 		player.init();
 
+		this._bgm = play(Music.MAIN, {
+			volume: 0.2,
+		});
+
 		this.addPlatform();
 		this.spawnTree();
 		this.spawnClouds();
+
+		const scoreLabel = add([text(this.score), pos(24, 24)]);
+
+		onUpdate(() => {
+			this._score++;
+			scoreLabel.text = `Score: ${this.score}`;
+		});
+
+		player.ref.onCollide("tree", () => {
+			addKaboom(player.ref.pos);
+			shake();
+			this._bgm.stop();
+			go(SceneName.LOSE, {
+				score: this.score,
+			});
+		});
 	}
 
 	private addPlatform(): void {

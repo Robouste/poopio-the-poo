@@ -3,14 +3,13 @@ import { PRIMARY_COLOR } from "../constants";
 import { SceneName } from "../enums";
 import { SoundTag } from "../enums/sound.enum";
 import { GameHelper } from "../game.helper";
-import { Player } from "../objects/player.class";
 
 export class GameOverScene {
 	private _gameOverText: GameObj<TextComp | PosComp | AnchorComp>;
 	private _scoreText: GameObj<TextComp | PosComp | AnchorComp>;
 	private _gameOverSound: AudioPlay;
 
-	constructor(player: Player) {
+	constructor(score: number) {
 		GameHelper.addBackground();
 
 		this._gameOverSound = play(SoundTag.GAME_OVER);
@@ -22,7 +21,7 @@ export class GameOverScene {
 		]);
 
 		this._scoreText = add([
-			text(`Score: ${player.score}`),
+			text(`Score: ${score}`),
 			pos(this._gameOverText.pos.x, this._gameOverText.pos.y + 48),
 			anchor("center"),
 		]);
