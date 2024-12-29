@@ -1,4 +1,4 @@
-import { AnchorComp, GameObj, PosComp, TextComp } from "kaplay";
+import { AnchorComp, AudioPlay, GameObj, PosComp, TextComp } from "kaplay";
 import { SceneName } from "../enums";
 import { SoundTag } from "../enums/sound.enum";
 import { GameHelper } from "../game.helper";
@@ -7,11 +7,12 @@ import { Bean } from "../objects/bean.class";
 export class GameOverScene {
 	private _gameOverText: GameObj<TextComp | PosComp | AnchorComp>;
 	private _scoreText: GameObj<TextComp | PosComp | AnchorComp>;
+	private _gameOverSound: AudioPlay;
 
 	constructor(bean: Bean) {
 		GameHelper.addBackground();
 
-		play(SoundTag.GAME_OVER);
+		this._gameOverSound = play(SoundTag.GAME_OVER);
 
 		this._gameOverText = add([
 			text("Game Over"),
@@ -57,6 +58,9 @@ export class GameOverScene {
 			textObj.color = new Color(52, 143, 235);
 		});
 
-		button.onClick(() => go(SceneName.GAME));
+		button.onClick(() => {
+			this._gameOverSound.stop();
+			go(SceneName.GAME);
+		});
 	}
 }
