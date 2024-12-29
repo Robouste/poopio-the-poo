@@ -1,8 +1,8 @@
 import kaplay from "kaplay";
 import "kaplay/global"; // uncomment if you want to use without the k. prefix
-import { Bean } from "./bean.class";
 import { SceneName } from "./enums";
 import { SoundTag } from "./enums/sound.enum";
+import { Bean } from "./objects/bean.class";
 import { GameOverScene } from "./scenes/game-over.scene";
 import { GameScene } from "./scenes/game.scene";
 

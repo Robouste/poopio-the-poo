@@ -1,5 +1,6 @@
-import { Bean } from "../bean.class";
+import { PLATFORM_HEIGHT } from "../constants";
 import { GameHelper } from "../game.helper";
+import { Bean } from "../objects/bean.class";
 
 export class GameScene {
 	constructor(bean: Bean) {
@@ -15,7 +16,7 @@ export class GameScene {
 
 	private addHowToPlay(): void {
 		add([
-			text("Space to jump. Space again to double jump"),
+			text("Space/Tap to jump. Space/Tap again to double jump"),
 			pos(center()),
 			anchor("center"),
 		]);
@@ -23,8 +24,8 @@ export class GameScene {
 
 	private addPlatform(): void {
 		add([
-			rect(width(), 48),
-			pos(0, height() - 48),
+			rect(width(), PLATFORM_HEIGHT),
+			pos(0, height() - PLATFORM_HEIGHT),
 			outline(4),
 			area(),
 			body({ isStatic: true }),
@@ -38,7 +39,7 @@ export class GameScene {
 			rect(48, rand(24, 64)),
 			area(),
 			outline(4, new Color(0, 0, 0)),
-			pos(width(), height() - 48),
+			pos(width(), height() - PLATFORM_HEIGHT),
 			anchor("botleft"),
 			color(255, 180, 255),
 			move(LEFT, 500),

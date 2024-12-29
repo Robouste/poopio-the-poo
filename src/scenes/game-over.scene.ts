@@ -1,6 +1,6 @@
-import { Bean } from "../bean.class";
 import { SoundTag } from "../enums/sound.enum";
 import { GameHelper } from "../game.helper";
+import { Bean } from "../objects/bean.class";
 
 export class GameOverScene {
 	constructor(bean: Bean) {

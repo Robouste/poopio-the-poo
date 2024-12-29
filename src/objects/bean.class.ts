@@ -1,6 +1,7 @@
 import { AreaComp, BodyComp, GameObj, PosComp, SpriteComp } from "kaplay";
-import { SceneName } from "./enums";
-import { SoundTag } from "./enums/sound.enum";
+import { PLATFORM_HEIGHT } from "../constants";
+import { SceneName } from "../enums";
+import { SoundTag } from "../enums/sound.enum";
 
 export class Bean {
 	public ref: GameObj<SpriteComp | PosComp | AreaComp | BodyComp>;
@@ -17,7 +18,13 @@ export class Bean {
 	constructor() {}
 
 	public init(): void {
-		this.ref = add([sprite("bean"), pos(80, 40), area(), body()]);
+		this.ref = add([
+			sprite("bean"),
+			pos(80, height() - PLATFORM_HEIGHT),
+			area(),
+			body(),
+			anchor("botleft"),
+		]);
 
 		onKeyPress(["space"], () => {
 			this.jump();
