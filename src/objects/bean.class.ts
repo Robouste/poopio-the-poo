@@ -46,7 +46,7 @@ export class Bean {
 
 		onUpdate(() => {
 			this._score++;
-			scoreLabel.text = this.score;
+			scoreLabel.text = `Score: ${this.score}`;
 		});
 	}
 

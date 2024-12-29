@@ -17,7 +17,7 @@ export class GameScene {
 	private addHowToPlay(): void {
 		add([
 			text("Space/Tap to jump. Space/Tap again to double jump"),
-			pos(center()),
+			pos(width() / 2, 80),
 			anchor("center"),
 		]);
 	}
