@@ -32,17 +32,30 @@ export class GameOverScene {
 		const button = add([
 			rect(200, 48),
 			outline(4, new Color(255, 255, 255)),
-			pos(this._scoreText.pos.x, this._scoreText.pos.y + 48),
+			pos(this._scoreText.pos.x, this._scoreText.pos.y + 60),
 			anchor("center"),
 			area(),
+			color(255, 255, 255),
 		]);
 
-		add([
+		const textObj = add([
 			text("Restart"),
 			pos(button.pos.x, button.pos.y + 4),
-			color(0, 0, 0),
+			color(52, 143, 235),
 			anchor("center"),
 		]);
+
+		button.onHover(() => {
+			setCursor("pointer");
+			button.color = new Color(52, 143, 235);
+			textObj.color = new Color(255, 255, 255);
+		});
+
+		button.onHoverEnd(() => {
+			setCursor("default");
+			button.color = new Color(255, 255, 255);
+			textObj.color = new Color(52, 143, 235);
+		});
 
 		button.onClick(() => go(SceneName.GAME));
 	}
