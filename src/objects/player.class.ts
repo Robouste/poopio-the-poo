@@ -2,6 +2,7 @@ import { AreaComp, BodyComp, GameObj, PosComp, SpriteComp } from "kaplay";
 import { PLATFORM_HEIGHT } from "../constants";
 import { SceneName } from "../enums";
 import { SoundTag } from "../enums/sound.enum";
+import { SpriteName } from "../enums/sprite-name.enum";
 
 export class Player {
 	public ref: GameObj<SpriteComp | PosComp | AreaComp | BodyComp>;
@@ -19,7 +20,7 @@ export class Player {
 
 	public init(): void {
 		this.ref = add([
-			sprite("bean"),
+			sprite(SpriteName.PLAYER),
 			pos(80, height() - PLATFORM_HEIGHT),
 			area(),
 			body(),

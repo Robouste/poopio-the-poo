@@ -2,6 +2,7 @@ import kaplay from "kaplay";
 import "kaplay/global"; // uncomment if you want to use without the k. prefix
 import { SceneName } from "./enums";
 import { SoundTag } from "./enums/sound.enum";
+import { SpriteName } from "./enums/sprite-name.enum";
 import { Player } from "./objects/player.class";
 import { GameOverScene } from "./scenes/game-over.scene";
 import { GameScene } from "./scenes/game.scene";
@@ -9,7 +10,7 @@ import { GameScene } from "./scenes/game.scene";
 kaplay();
 
 loadRoot("./"); // A good idea for Itch.io publishing later
-loadSprite("bean", "sprites/bean.png");
+loadSprite(SpriteName.PLAYER, "sprites/player.png");
 loadSound(SoundTag.JUMP, "sounds/fart.mp3");
 loadSound(SoundTag.GAME_OVER, "sounds/game-over.mp3");
 
