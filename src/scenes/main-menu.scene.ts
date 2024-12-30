@@ -1,17 +1,28 @@
 import { PRIMARY_COLOR } from "../constants";
 import { SceneName } from "../enums";
+import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
 
 export class MainMenuScene {
 	constructor() {
 		GameHelper.addBackground();
 
-		const firstLine = add([
+		const titleWidth = Math.min(width() * 0.8, 400);
+
+		add([
+			sprite(SpriteName.TITLE, {
+				width: titleWidth,
+			}),
+			pos(width() / 2, height() * 0.2),
+			anchor("center"),
+		]);
+
+		add([
 			text("Space/Tap to jump."),
 			pos(width() / 2, height() / 2 - 80),
 			anchor("center"),
 		]);
-		const secondLine = add([
+		add([
 			text("Space/Tap again to double jump."),
 			pos(width() / 2, height() / 2 - 40),
 			anchor("center"),

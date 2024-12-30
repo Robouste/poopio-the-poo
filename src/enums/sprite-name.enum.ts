@@ -3,4 +3,5 @@ export enum SpriteName {
 	CLOUD = "cloud",
 	ENNEMY1 = "ennemy_1",
 	ENNEMY2 = "ennemy_2",
+	TITLE = "title",
 }
