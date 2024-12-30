@@ -11,7 +11,17 @@ import { MainMenuScene } from "./scenes/main-menu.scene";
 kaplay();
 
 loadRoot("./"); // A good idea for Itch.io publishing later
-loadSprite(SpriteName.PLAYER, "sprites/player.png");
+loadSprite(SpriteName.PLAYER, "sprites/player/spritesheet.png", {
+	sliceX: 18,
+	sliceY: 1,
+	anims: {
+		idle: {
+			from: 0,
+			to: 17,
+			loop: true,
+		},
+	},
+});
 loadSprite(SpriteName.CLOUD, "sprites/cloud.png");
 loadSound(SoundTag.JUMP, "sounds/fart.mp3");
 loadSound(SoundTag.GAME_OVER, "sounds/game-over.mp3");
