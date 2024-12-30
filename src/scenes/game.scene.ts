@@ -6,6 +6,10 @@ import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
 import { Player } from "../objects/player.class";
 
+enum SceneTag {
+	ENNEMY = "ennemy",
+}
+
 export class GameScene {
 	private _score = 0;
 	public get score(): string {
@@ -29,9 +33,18 @@ export class GameScene {
 		});
 
 		this.addPlatform();
-		this.spawnTree();
+		this.spawnEnnemy();
 		this.spawnClouds();
 		this.addScore();
+
+		this._player.ref.onCollide(SceneTag.ENNEMY, (obj, collision) => {
+			addKaboom(this._player.ref.pos);
+			shake();
+			this._bgm.stop();
+			go(SceneName.GAME_OVER, {
+				score: this.score,
+			});
+		});
 	}
 
 	private addPlatform(): void {
@@ -46,20 +59,42 @@ export class GameScene {
 		]);
 	}
 
-	private spawnTree(): void {
-		add([
-			rect(48, rand(24, 64)),
+	private spawnEnnemy(): void {
+		const spriteName =
+			rand(0, 1) > 0.5 ? SpriteName.ENNEMY1 : SpriteName.ENNEMY2;
+
+		const spriteWidth = spriteName === SpriteName.ENNEMY1 ? 48 : 32;
+
+		const basePosY = height() - PLATFORM_HEIGHT - 12;
+		const ennemy = add([
+			sprite(spriteName, {
+				height: 48,
+				width: spriteWidth,
+			}),
 			area(),
 			outline(4, new Color(0, 0, 0)),
-			pos(width(), height() - PLATFORM_HEIGHT),
+			pos(width(), basePosY),
 			anchor("botleft"),
-			color(255, 180, 255),
 			move(LEFT, 500),
-			"tree",
+			SceneTag.ENNEMY,
+			{
+				time: 0,
+			},
 		]);
 
+		ennemy.onUpdate(() => {
+			ennemy.time += dt();
+			const t = (ennemy.time % 0.5) / 2;
+
+			ennemy.pos = lerp(
+				vec2(ennemy.pos.x, ennemy.pos.y - 2),
+				vec2(ennemy.pos.x, height() - PLATFORM_HEIGHT - 4),
+				t
+			);
+		});
+
 		wait(rand(0.5, 1.5), () => {
-			this.spawnTree();
+			this.spawnEnnemy();
 		});
 	}
 
@@ -85,15 +120,6 @@ export class GameScene {
 		onUpdate(() => {
 			this._score++;
 			scoreLabel.text = `Score: ${this.score}`;
-		});
-
-		this._player.ref.onCollide("tree", (obj, collision) => {
-			addKaboom(this._player.ref.pos);
-			shake();
-			this._bgm.stop();
-			go(SceneName.GAME_OVER, {
-				score: this.score,
-			});
 		});
 	}
 }

@@ -28,6 +28,8 @@ loadSprite(SpriteName.PLAYER, "sprites/player/idle-and-jump.png", {
 	},
 });
 loadSprite(SpriteName.CLOUD, "sprites/cloud.png");
+loadSprite(SpriteName.ENNEMY1, "sprites/toilet-paper.png");
+loadSprite(SpriteName.ENNEMY2, "sprites/plunger.png");
 loadSound(SoundTag.JUMP, "sounds/fart.mp3");
 loadSound(SoundTag.GAME_OVER, "sounds/game-over.mp3");
 loadSound(Music.MAIN, "musics/bgm.mp3");
