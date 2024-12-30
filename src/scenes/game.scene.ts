@@ -87,7 +87,7 @@ export class GameScene {
 			scoreLabel.text = `Score: ${this.score}`;
 		});
 
-		this._player.ref.onCollide("tree", () => {
+		this._player.ref.onCollide("tree", (obj, collision) => {
 			addKaboom(this._player.ref.pos);
 			shake();
 			this._bgm.stop();

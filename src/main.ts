@@ -11,14 +11,19 @@ import { MainMenuScene } from "./scenes/main-menu.scene";
 kaplay();
 
 loadRoot("./"); // A good idea for Itch.io publishing later
-loadSprite(SpriteName.PLAYER, "sprites/player/spritesheet.png", {
-	sliceX: 18,
+loadSprite(SpriteName.PLAYER, "sprites/player/idle-and-jump.png", {
+	sliceX: 28,
 	sliceY: 1,
 	anims: {
 		idle: {
 			from: 0,
 			to: 17,
 			loop: true,
+		},
+		jump: {
+			from: 21,
+			to: 23,
+			loop: false,
 		},
 	},
 });
