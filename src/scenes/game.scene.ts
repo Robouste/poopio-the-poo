@@ -16,12 +16,13 @@ export class GameScene {
 	}
 
 	private _bgm: AudioPlay;
+	private _player: Player = new Player();
 
-	constructor(player: Player) {
+	constructor() {
 		GameHelper.addBackground();
 		setGravity(1600);
 
-		player.init();
+		this._player.init();
 
 		this._bgm = play(Music.MAIN, {
 			volume: 0.2,
@@ -30,22 +31,7 @@ export class GameScene {
 		this.addPlatform();
 		this.spawnTree();
 		this.spawnClouds();
-
-		const scoreLabel = add([text(this.score), pos(24, 24)]);
-
-		onUpdate(() => {
-			this._score++;
-			scoreLabel.text = `Score: ${this.score}`;
-		});
-
-		player.ref.onCollide("tree", () => {
-			addKaboom(player.ref.pos);
-			shake();
-			this._bgm.stop();
-			go(SceneName.LOSE, {
-				score: this.score,
-			});
-		});
+		this.addScore();
 	}
 
 	private addPlatform(): void {
@@ -90,6 +76,24 @@ export class GameScene {
 
 		wait(rand(1, 3), () => {
 			this.spawnClouds();
+		});
+	}
+
+	private addScore(): void {
+		const scoreLabel = add([text(this.score), pos(24, 24)]);
+
+		onUpdate(() => {
+			this._score++;
+			scoreLabel.text = `Score: ${this.score}`;
+		});
+
+		this._player.ref.onCollide("tree", () => {
+			addKaboom(this._player.ref.pos);
+			shake();
+			this._bgm.stop();
+			go(SceneName.GAME_OVER, {
+				score: this.score,
+			});
 		});
 	}
 }

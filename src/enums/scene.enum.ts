@@ -1,5 +1,5 @@
 export enum SceneName {
 	GAME = "game",
-	LOSE = "lose",
+	GAME_OVER = "lose",
 	MAIN_MENU = "main-menu",
 }

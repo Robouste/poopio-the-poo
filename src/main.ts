@@ -4,7 +4,6 @@ import { SceneName } from "./enums";
 import { Music } from "./enums/music.enum";
 import { SoundTag } from "./enums/sound.enum";
 import { SpriteName } from "./enums/sprite-name.enum";
-import { Player } from "./objects/player.class";
 import { GameOverScene } from "./scenes/game-over.scene";
 import { GameScene } from "./scenes/game.scene";
 import { MainMenuScene } from "./scenes/main-menu.scene";
@@ -18,17 +17,15 @@ loadSound(SoundTag.JUMP, "sounds/fart.mp3");
 loadSound(SoundTag.GAME_OVER, "sounds/game-over.mp3");
 loadSound(Music.MAIN, "musics/bgm.mp3");
 
-const bean = new Player();
-
 scene(SceneName.MAIN_MENU, () => {
 	new MainMenuScene();
 });
 
 scene(SceneName.GAME, () => {
-	new GameScene(bean);
+	new GameScene();
 });
 
-scene(SceneName.LOSE, (params: { score: number }) => {
+scene(SceneName.GAME_OVER, (params: { score: number }) => {
 	new GameOverScene(params.score);
 });
 
