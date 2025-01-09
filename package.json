@@ -2,6 +2,7 @@
 	"name": "kaplay-game-engine-test",
 	"type": "module",
 	"scripts": {
+		"start": "npm run dev",
 		"build": "vite build",
 		"dev": "vite",
 		"preview": "vite preview",

@@ -20,7 +20,7 @@ export class Player {
 
 		this.ref.play("idle");
 
-		onKeyPress(["space"], () => {
+		onKeyPress(["space", "enter"], () => {
 			this.jump();
 		});
 
@@ -37,7 +37,7 @@ export class Player {
 	private jump(): void {
 		if (this.ref.isGrounded() || this.jumps > 0) {
 			this.ref.play("jump");
-			this.ref.jump();
+			this.ref.jump(700);
 			this.jumps--;
 			play(SoundTag.JUMP);
 		}

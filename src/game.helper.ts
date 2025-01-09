@@ -2,7 +2,6 @@ import {
 	Anchor,
 	AnchorComp,
 	AreaComp,
-	Color,
 	ColorComp,
 	GameObj,
 	OutlineComp,
@@ -11,18 +10,26 @@ import {
 	Vec2,
 } from "kaplay";
 import { PRIMARY_COLOR } from "./constants";
+import { RGBColor } from "./types/rgb-color.type";
 
 export class GameHelper {
-	public static addBackground(): void {
+	public static addBackground(
+		bgColor: RGBColor = PRIMARY_COLOR
+	): GameObj<RectComp | PosComp | ColorComp> {
 		// background
-		add([rect(width(), height()), pos(0, 0), color(...PRIMARY_COLOR)]);
+
+		return add([
+			rect(width(), height()),
+			pos(0, 0),
+			color(bgColor.r, bgColor.g, bgColor.b),
+		]);
 	}
 
 	public static createButton(params: {
 		width: number;
 		height: number;
-		primaryColor: Color;
-		secondaryColor: Color;
+		primaryColor: RGBColor;
+		secondaryColor: RGBColor;
 		posX: number;
 		posY: number;
 		anchor?: Anchor | Vec2;
@@ -31,40 +38,43 @@ export class GameHelper {
 	}): GameObj<
 		RectComp | PosComp | ColorComp | OutlineComp | AnchorComp | AreaComp
 	> {
+		const primaryColor = new Color(
+			params.primaryColor.r,
+			params.primaryColor.g,
+			params.primaryColor.b
+		);
+		const secondaryColor = new Color(
+			params.secondaryColor.r,
+			params.secondaryColor.g,
+			params.secondaryColor.b
+		);
 		const button = add([
 			rect(params.width, params.height),
-			outline(4, params.secondaryColor),
+			outline(4, secondaryColor),
 			pos(params.posX, params.posY),
 			anchor(params.anchor ?? "topleft"),
 			area(),
-			color(params.secondaryColor),
+			color(secondaryColor),
 		]);
 
 		button.add([
 			text(params.text),
 			pos(0, 0),
-			color(params.primaryColor),
+			color(primaryColor),
 			"text",
 			anchor("center"),
 		]);
 
-		// const textObj = add([
-		// 	text(params.text),
-		// 	pos(button.pos.x, button.pos.y + 4),
-		// 	color(params.primaryColor),
-		// 	anchor("center"),
-		// ]);
-
 		button.onHover(() => {
 			setCursor("pointer");
-			button.color = params.primaryColor;
-			button.children[0].color = params.secondaryColor;
+			button.color = primaryColor;
+			button.children[0].color = secondaryColor;
 		});
 
 		button.onHoverEnd(() => {
 			setCursor("default");
-			button.color = params.secondaryColor;
-			button.children[0].color = params.primaryColor;
+			button.color = secondaryColor;
+			button.children[0].color = primaryColor;
 		});
 
 		button.onClick(() => params.onClick());

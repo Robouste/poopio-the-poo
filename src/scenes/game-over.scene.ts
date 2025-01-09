@@ -27,22 +27,27 @@ export class GameOverScene {
 		]);
 
 		this.addRestartButton();
+
+		onKeyPress(["space", "escape", "enter"], () => this.restart());
+		onTouchStart(() => this.restart());
 	}
 
 	private addRestartButton(): void {
 		GameHelper.createButton({
 			width: 200,
 			height: 48,
-			primaryColor: new Color(...PRIMARY_COLOR),
+			primaryColor: PRIMARY_COLOR,
 			secondaryColor: new Color(255, 255, 255),
 			posX: this._scoreText.pos.x,
 			posY: this._scoreText.pos.y + 60,
 			text: "Restart",
 			anchor: "center",
-			onClick: () => {
-				this._gameOverSound.stop();
-				go(SceneName.GAME);
-			},
+			onClick: () => this.restart(),
 		});
+	}
+
+	private restart(): void {
+		this._gameOverSound.stop();
+		go(SceneName.GAME);
 	}
 }

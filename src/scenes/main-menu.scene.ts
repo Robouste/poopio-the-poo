@@ -28,18 +28,22 @@ export class MainMenuScene {
 			anchor("center"),
 		]);
 
+		onKeyPress(["space", "enter"], () => this.start());
+
 		GameHelper.createButton({
 			width: 200,
 			height: 48,
-			primaryColor: new Color(...PRIMARY_COLOR),
+			primaryColor: PRIMARY_COLOR,
 			secondaryColor: new Color(255, 255, 255),
 			posX: width() / 2,
 			posY: height() / 2 + 48,
 			text: "Start",
 			anchor: "center",
-			onClick: () => {
-				go(SceneName.GAME);
-			},
+			onClick: () => this.start(),
 		});
+	}
+
+	private start(): void {
+		go(SceneName.GAME);
 	}
 }
