@@ -68,7 +68,7 @@ export class GameScene {
 		this._player.init();
 
 		this._bgm = play(Music.MAIN, {
-			volume: 0,
+			volume: 0.2,
 		});
 
 		this.addPlatform();
