@@ -98,7 +98,7 @@ export class GameScene {
 			sprite(SpriteName.DRAGON),
 			area(),
 			pos(width(), rand(height() * 0.5, height() * 0.75)),
-			health(90),
+			health(60),
 			GameSceneTag.DRAGON,
 			{
 				speed: this._difficultySpeed,
