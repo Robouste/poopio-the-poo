@@ -31,8 +31,15 @@ export class MainMenuScene {
 			anchor("center"),
 		]);
 
+		const jumpControl = DebugHelper.isMobile
+			? "Tap left"
+			: "Space or left mouse";
+		const fireControl = DebugHelper.isMobile
+			? "Tap right"
+			: "Enter or right mouse";
+
 		add([
-			text("Space or left mouse to jump (tap left on mobile)"),
+			text(`JUMP: ${jumpControl}`),
 			pos(width() / 2, height() / 2 - 96),
 			anchor("center"),
 		]);
@@ -43,7 +50,7 @@ export class MainMenuScene {
 		]);
 
 		add([
-			text("Enter or right mouse to SHOOT (tap right on mobile)"),
+			text(`SHOOT: ${fireControl}`),
 			pos(width() / 2, height() / 2),
 			anchor("center"),
 		]);
