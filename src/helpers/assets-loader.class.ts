@@ -79,12 +79,13 @@ export class AssetsLoader {
 	}
 
 	public static loadSounds(): void {
-		loadSound(SoundTag.JUMP, "sounds/fart.mp3");
+		loadSound(SoundTag.JUMP, "sounds/jump.wav");
+		loadSound(SoundTag.DOUBLE_JUMP, "sounds/double-jump.wav");
 		loadSound(SoundTag.GAME_OVER, "sounds/game-over.mp3");
 		loadSound(SoundTag.LEVEL_UP, "sounds/level-up.wav");
 		loadSound(Music.MAIN, "musics/bgm.mp3");
 		loadSound(SoundTag.FIRE, "sounds/fire.mp3");
 		loadSound(SoundTag.IMPACT_INVINCIBLE, "sounds/invincible.mp3");
-		loadSound(SoundTag.IMPACT, "sounds/impact.mp3");
+		loadSound(SoundTag.IMPACT, "sounds/impact.wav");
 	}
 }

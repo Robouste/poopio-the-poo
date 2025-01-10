@@ -57,13 +57,23 @@ export class Player {
 		if (this.ref.isGrounded() || this.jumps > 0) {
 			this.ref.play("jump");
 			this.ref.jump(700);
+			if (this.jumps === 2) {
+				play(SoundTag.JUMP, {
+					volume: 0.7,
+				});
+			} else {
+				play(SoundTag.DOUBLE_JUMP, {
+					volume: 0.7,
+				});
+			}
 			this.jumps--;
-			play(SoundTag.JUMP);
 		}
 	}
 
 	private fire(): void {
-		play(SoundTag.FIRE);
+		play(SoundTag.FIRE, {
+			volume: 0.7,
+		});
 
 		const bullet = add([
 			sprite(SpriteName.BULLET),
@@ -95,7 +105,7 @@ export class Player {
 
 		bullet.onCollide(GameSceneTag.DRAGON, (dragon: Dragon) => {
 			play(SoundTag.IMPACT, {
-				volume: 0.8,
+				volume: 0.7,
 			});
 
 			dragon.hurt(30);

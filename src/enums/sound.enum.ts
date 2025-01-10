@@ -1,5 +1,6 @@
 export enum SoundTag {
 	JUMP = "jump_sound",
+	DOUBLE_JUMP = "double_jump_sound",
 	GAME_OVER = "game_over_sound",
 	LEVEL_UP = "level_up_sound",
 	FIRE = "fire_sound",
