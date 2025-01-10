@@ -7,6 +7,7 @@ import { GameHelper } from "../game.helper";
 export class GameOverScene {
 	private _gameOverText: GameObj<TextComp | PosComp | AnchorComp>;
 	private _scoreText: GameObj<TextComp | PosComp | AnchorComp>;
+	private _bestScoreText: GameObj<TextComp | PosComp | AnchorComp>;
 	private _gameOverSound: AudioPlay;
 
 	constructor(score: number) {
@@ -26,6 +27,21 @@ export class GameOverScene {
 			anchor("center"),
 		]);
 
+		let currentBest = this.getBestScore();
+		let scoreBeaten = false;
+
+		if (score > currentBest) {
+			this.saveScore(score);
+			currentBest = score;
+			scoreBeaten = true;
+		}
+
+		this._bestScoreText = add([
+			text(`Best: ${currentBest}${scoreBeaten ? " (New !)" : ""}`),
+			pos(this._scoreText.pos.x, this._scoreText.pos.y + 48),
+			anchor("center"),
+		]);
+
 		this.addRestartButton();
 
 		onKeyPress(["space", "escape", "enter"], () => this.restart());
@@ -39,7 +55,7 @@ export class GameOverScene {
 			primaryColor: PRIMARY_COLOR,
 			secondaryColor: new Color(255, 255, 255),
 			posX: this._scoreText.pos.x,
-			posY: this._scoreText.pos.y + 60,
+			posY: this._bestScoreText.pos.y + 60,
 			text: "Restart",
 			anchor: "center",
 			onClick: () => this.restart(),
@@ -49,5 +65,14 @@ export class GameOverScene {
 	private restart(): void {
 		this._gameOverSound.stop();
 		go(SceneName.GAME);
+	}
+
+	private saveScore(score: number): void {
+		localStorage.setItem("score", score.toString());
+	}
+
+	private getBestScore(): number {
+		const score = localStorage.getItem("score");
+		return score ? parseInt(score, 10) : 0;
 	}
 }

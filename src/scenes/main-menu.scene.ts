@@ -1,11 +1,16 @@
 import { PRIMARY_COLOR } from "../constants";
 import { SceneName } from "../enums";
+import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
 
 export class MainMenuScene {
 	constructor() {
 		GameHelper.addBackground();
+
+		play(SoundTag.LEVEL_UP, {
+			volume: 0,
+		});
 
 		const titleWidth = Math.min(width() * 0.8, 400);
 

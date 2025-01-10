@@ -17,6 +17,7 @@ import { Music } from "../enums/music.enum";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
+import { DebugHelper } from "../helpers/debug.helper";
 import { Player } from "../objects/player.class";
 
 enum SceneTag {
@@ -67,8 +68,10 @@ export class GameScene {
 
 		this._player.init();
 
+		const bgmVolume = DebugHelper.isDevMode ? 0 : 0.2;
+
 		this._bgm = play(Music.MAIN, {
-			volume: 0.2,
+			volume: bgmVolume,
 		});
 
 		this.addPlatform();
