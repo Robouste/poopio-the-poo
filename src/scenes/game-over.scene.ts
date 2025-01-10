@@ -44,8 +44,10 @@ export class GameOverScene {
 
 		this.addRestartButton();
 
-		onKeyPress(["space", "escape", "enter"], () => this.restart());
-		onTouchStart(() => this.restart());
+		wait(1, () => {
+			onKeyPress(["space", "escape", "enter"], () => this.restart());
+			onTouchStart(() => this.restart());
+		});
 	}
 
 	private addRestartButton(): void {

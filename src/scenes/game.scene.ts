@@ -1,11 +1,8 @@
 import {
-	AnchorComp,
-	AreaComp,
 	AudioPlay,
 	ColorComp,
 	EmptyComp,
 	GameObj,
-	OutlineComp,
 	PosComp,
 	RectComp,
 	SpriteComp,
@@ -13,30 +10,15 @@ import {
 } from "kaplay";
 import { PLATFORM_HEIGHT, PRIMARY_COLOR } from "../constants";
 import { SceneName } from "../enums";
+import { GameSceneTag } from "../enums/game-scene-tag.enum";
 import { Music } from "../enums/music.enum";
+import { PlayerTag } from "../enums/player-tag.enum";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
 import { DebugHelper } from "../helpers/debug.helper";
 import { Player } from "../objects/player.class";
-
-enum SceneTag {
-	ENNEMY = "ennemy",
-	Cloud = "cloud",
-}
-
-type Ennemy = GameObj<
-	| SpriteComp
-	| PosComp
-	| AreaComp
-	| OutlineComp
-	| AnchorComp
-	| EmptyComp
-	| {
-			time: number;
-			id: number;
-	  }
->;
+import { Obsticle } from "../types/ennemy.type";
 
 type Cloud = GameObj<PosComp | SpriteComp | EmptyComp>;
 
@@ -75,18 +57,14 @@ export class GameScene {
 		});
 
 		this.addPlatform();
-		this.spawnEnnemy();
+		this.spawnObsticle();
+		this.spawnDragon();
 		this.spawnClouds();
 		this.addScore();
 
-		this._player.ref.onCollide(SceneTag.ENNEMY, () => {
-			addKaboom(this._player.ref.pos);
-			shake();
-			this._bgm.stop();
-			go(SceneName.GAME_OVER, {
-				score: this.score,
-			});
-		});
+		this._player.ref.onCollide(GameSceneTag.OBSTICLE, () =>
+			this.gameOver()
+		);
 	}
 
 	private addPlatform(): void {
@@ -101,18 +79,50 @@ export class GameScene {
 		]);
 	}
 
-	private spawnEnnemy(): void {
+	private spawnObsticle(): void {
 		const spriteName =
-			rand(0, 1) > 0.5 ? SpriteName.ENNEMY1 : SpriteName.ENNEMY2;
+			rand(0, 1) > 0.5 ? SpriteName.OBSTICLE_1 : SpriteName.OBSTICLE_2;
 
-		this.addEnnemy(spriteName, width());
+		this.addObsticle(spriteName, width());
 
 		const minTime = 0.9 - this._difficulty * 0.07;
 		const maxTime = 1.5 - this._difficulty * 0.07;
 
 		wait(rand(minTime, maxTime), () => {
-			this.spawnEnnemy();
+			this.spawnObsticle();
 		});
+	}
+
+	private spawnDragon(): void {
+		const dragon = add([
+			sprite(SpriteName.DRAGON),
+			area(),
+			pos(width() - 150, rand(height() * 0.5, height() * 0.75)),
+			health(90),
+			GameSceneTag.DRAGON,
+			{
+				speed: this._difficultySpeed,
+			},
+		]);
+
+		onUpdate(() => {
+			const playerPos = this._player.ref.pos;
+
+			dragon.moveTo(
+				playerPos.x,
+				playerPos.y - this._player.ref.height / 2,
+				this._difficultySpeed
+			);
+		});
+
+		dragon.play("fly");
+
+		dragon.onCollide(PlayerTag.PLAYER, () => {
+			dragon.destroy();
+			this.gameOver();
+		});
+
+		wait(rand(5, 10), () => this.spawnDragon());
 	}
 
 	private spawnClouds(): void {
@@ -124,7 +134,7 @@ export class GameScene {
 			}),
 			pos(width(), rand(0, height() * 0.75)),
 			move(LEFT, 50 * this._difficulty),
-			SceneTag.Cloud,
+			GameSceneTag.Cloud,
 		]);
 
 		wait(rand(1, 3), () => this.spawnClouds());
@@ -143,12 +153,12 @@ export class GameScene {
 		});
 	}
 
-	private addEnnemy(spriteName: string, posX: number): Ennemy {
-		const spriteWidth = spriteName === SpriteName.ENNEMY1 ? 48 : 32;
+	private addObsticle(spriteName: string, posX: number): Obsticle {
+		const spriteWidth = spriteName === SpriteName.OBSTICLE_1 ? 48 : 32;
 
 		const basePosY = height() - PLATFORM_HEIGHT - 12;
 
-		const ennemy = add([
+		const obsticle = add([
 			sprite(spriteName, {
 				height: 48,
 				width: spriteWidth,
@@ -158,28 +168,29 @@ export class GameScene {
 			pos(posX, basePosY),
 			anchor("botleft"),
 			move(LEFT, this._difficultySpeed),
-			SceneTag.ENNEMY,
+			GameSceneTag.OBSTICLE,
 			{
 				time: 0,
+				speed: this._difficultySpeed,
 			},
 		]);
 
-		ennemy.onUpdate(() => {
-			if (ennemy.pos.x + spriteWidth < 0) {
-				destroy(ennemy);
+		obsticle.onUpdate(() => {
+			if (obsticle.pos.x + spriteWidth < 0) {
+				destroy(obsticle);
 				return;
 			}
-			ennemy.time += dt();
-			const t = (ennemy.time % 0.5) / 2;
+			obsticle.time += dt();
+			const t = (obsticle.time % 0.5) / 2;
 
-			ennemy.pos = lerp(
-				vec2(ennemy.pos.x, ennemy.pos.y - 2),
-				vec2(ennemy.pos.x, height() - PLATFORM_HEIGHT - 4),
+			obsticle.pos = lerp(
+				vec2(obsticle.pos.x, obsticle.pos.y - 2),
+				vec2(obsticle.pos.x, height() - PLATFORM_HEIGHT - 4),
 				t
 			);
 		});
 
-		return ennemy;
+		return obsticle;
 	}
 
 	private incrementDifficultyLevel(): void {
@@ -192,11 +203,11 @@ export class GameScene {
 
 		this._background.use(color(newBackgroundColor));
 
-		get(SceneTag.ENNEMY).forEach((ennemy: Ennemy) => {
-			ennemy.use(move(LEFT, this._difficultySpeed));
+		get(GameSceneTag.OBSTICLE).forEach((obsticle: Obsticle) => {
+			obsticle.use(move(LEFT, this._difficultySpeed));
 		});
 
-		get(SceneTag.Cloud).forEach((cloud: Cloud) => {
+		get(GameSceneTag.Cloud).forEach((cloud: Cloud) => {
 			cloud.use(move(LEFT, 50 * this._difficulty));
 		});
 	}
@@ -218,5 +229,12 @@ export class GameScene {
 		);
 
 		wait(2, () => levelUpText.destroy());
+	}
+
+	private gameOver(): void {
+		this._bgm.stop();
+		go(SceneName.GAME_OVER, {
+			score: this.score,
+		});
 	}
 }
