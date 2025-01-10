@@ -26,7 +26,13 @@ export class MainMenuScene {
 		]);
 
 		add([
-			text("Space to jump (tap left on mobile)"),
+			text("CONTROLS:"),
+			pos(width() / 2, height() / 2 - 160),
+			anchor("center"),
+		]);
+
+		add([
+			text("Space or left mouse to jump (tap left on mobile)"),
 			pos(width() / 2, height() / 2 - 96),
 			anchor("center"),
 		]);
@@ -37,7 +43,7 @@ export class MainMenuScene {
 		]);
 
 		add([
-			text("Enter to SHOOT (tap right on mobile)"),
+			text("Enter or right mouse to SHOOT (tap right on mobile)"),
 			pos(width() / 2, height() / 2),
 			anchor("center"),
 		]);

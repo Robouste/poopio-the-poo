@@ -26,6 +26,17 @@ export class Player {
 
 		onKeyPress(["space"], () => this.jump());
 
+		onMousePress((button) => {
+			switch (button) {
+				case "left":
+					this.jump();
+					break;
+				case "right":
+					this.fire();
+					break;
+			}
+		});
+
 		onKeyPress(["enter"], () => this.fire());
 
 		onTouchStart((pos) => {
