@@ -3,13 +3,16 @@ import { SceneName } from "../enums";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
+import { DebugHelper } from "../helpers/debug.helper";
 
 export class MainMenuScene {
 	constructor() {
 		GameHelper.addBackground();
 
+		const isDevMode = DebugHelper.isDevMode;
+
 		play(SoundTag.LEVEL_UP, {
-			volume: 0,
+			volume: isDevMode ? 0 : 0.2,
 		});
 
 		const titleWidth = Math.min(width() * 0.8, 400);
