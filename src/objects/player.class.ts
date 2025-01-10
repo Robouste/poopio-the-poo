@@ -26,26 +26,26 @@ export class Player {
 
 		onKeyPress(["space"], () => this.jump());
 
-		onMousePress((button) => {
-			switch (button) {
-				case "left":
-					this.jump();
-					break;
-				case "right":
-					this.fire();
-					break;
-			}
-		});
+		//onMousePress((button) => {
+			//switch (button) {
+				//case "left":
+					//this.jump();
+					//break;
+				//case "right":
+					//this.fire();
+					//break;
+			//}
+		//});
 
 		onKeyPress(["enter"], () => this.fire());
 
-		//onTouchStart((pos) => {
-			//if (pos.x < width() / 2) {
-				//this.jump();
-			//} else {
-				//this.fire();
-			//}
-		//});
+		onTouchStart((pos) => {
+			if (pos.x < width() / 2) {
+				this.jump();
+			} else {
+				this.fire();
+			}
+		});
 
 		this.ref.onCollide("ground", () => {
 			this.jumps = 2;
