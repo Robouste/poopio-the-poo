@@ -97,7 +97,7 @@ export class GameScene {
 		const dragon = add([
 			sprite(SpriteName.DRAGON),
 			area(),
-			pos(width(), rand(height() * 0.5, height() * 0.75)),
+			pos(width(), rand(height() * 0.7, height() * 0.8)),
 			health(60),
 			GameSceneTag.DRAGON,
 			{
@@ -122,7 +122,10 @@ export class GameScene {
 			this.gameOver();
 		});
 
-		wait(rand(5, 10), () => this.spawnDragon());
+		const minWait = 5 - this._difficulty * 0.3;
+		const maxWait = 10 - this._difficulty * 0.3;
+
+		wait(rand(minWait, maxWait), () => this.spawnDragon());
 	}
 
 	private spawnClouds(): void {
