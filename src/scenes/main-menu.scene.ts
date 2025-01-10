@@ -23,13 +23,19 @@ export class MainMenuScene {
 		]);
 
 		add([
-			text("Space/Tap to jump."),
+			text("Space/Tap left to jump."),
 			pos(width() / 2, height() / 2 - 80),
 			anchor("center"),
 		]);
 		add([
-			text("Space/Tap again to double jump."),
+			text("Space/Tap left again to double jump."),
 			pos(width() / 2, height() / 2 - 40),
+			anchor("center"),
+		]);
+
+		add([
+			text("Enter/Tap right to shoot."),
+			pos(width() / 2, height() / 2),
 			anchor("center"),
 		]);
 
@@ -41,7 +47,7 @@ export class MainMenuScene {
 			primaryColor: PRIMARY_COLOR,
 			secondaryColor: new Color(255, 255, 255),
 			posX: width() / 2,
-			posY: height() / 2 + 48,
+			posY: height() / 2 + 96,
 			text: "Start",
 			anchor: "center",
 			onClick: () => this.start(),

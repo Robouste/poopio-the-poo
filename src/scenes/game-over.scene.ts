@@ -10,8 +10,9 @@ export class GameOverScene {
 	private _bestScoreText: GameObj<TextComp | PosComp | AnchorComp>;
 	private _gameOverSound: AudioPlay;
 
-	constructor(score: number) {
+	constructor(score: number, bgm: AudioPlay) {
 		GameHelper.addBackground();
+		bgm.stop();
 
 		this._gameOverSound = play(SoundTag.GAME_OVER);
 

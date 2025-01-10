@@ -58,7 +58,7 @@ export class GameScene {
 
 		this.addPlatform();
 		this.spawnObsticle();
-		this.spawnDragon();
+		wait(2, () => this.spawnDragon());
 		this.spawnClouds();
 		this.addScore();
 
@@ -97,7 +97,7 @@ export class GameScene {
 		const dragon = add([
 			sprite(SpriteName.DRAGON),
 			area(),
-			pos(width() - 150, rand(height() * 0.5, height() * 0.75)),
+			pos(width(), rand(height() * 0.5, height() * 0.75)),
 			health(90),
 			GameSceneTag.DRAGON,
 			{
@@ -233,8 +233,10 @@ export class GameScene {
 
 	private gameOver(): void {
 		this._bgm.stop();
+
 		go(SceneName.GAME_OVER, {
 			score: this.score,
+			bgm: this._bgm,
 		});
 	}
 }
