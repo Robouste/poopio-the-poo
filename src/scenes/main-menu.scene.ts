@@ -26,18 +26,18 @@ export class MainMenuScene {
 		]);
 
 		add([
-			text("Space/Tap left to jump."),
-			pos(width() / 2, height() / 2 - 80),
+			text("Space to jump (tap left on mobile)"),
+			pos(width() / 2, height() / 2 - 96),
 			anchor("center"),
 		]);
 		add([
-			text("Space/Tap left again to double jump."),
-			pos(width() / 2, height() / 2 - 40),
+			text("You can double jump"),
+			pos(width() / 2, height() / 2 - 48),
 			anchor("center"),
 		]);
 
 		add([
-			text("Enter/Tap right to shoot."),
+			text("Enter to SHOOT (tap right on mobile)"),
 			pos(width() / 2, height() / 2),
 			anchor("center"),
 		]);
