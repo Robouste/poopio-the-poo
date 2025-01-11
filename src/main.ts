@@ -1,4 +1,4 @@
-import kaplay from "kaplay";
+import kaplay, { AudioPlay } from "kaplay";
 import "kaplay/global"; // uncomment if you want to use without the k. prefix
 import { SceneName } from "./enums";
 import { AssetsLoader } from "./helpers/assets-loader.class";
@@ -21,8 +21,8 @@ scene(SceneName.GAME, () => {
 	new GameScene();
 });
 
-scene(SceneName.GAME_OVER, (params: { score: number }) => {
-	new GameOverScene(params.score);
+scene(SceneName.GAME_OVER, (params: { score: number; bgm: AudioPlay }) => {
+	new GameOverScene(params.score, params.bgm);
 });
 
 go(SceneName.MAIN_MENU);

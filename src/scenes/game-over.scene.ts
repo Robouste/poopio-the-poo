@@ -52,7 +52,7 @@ export class GameOverScene {
 	}
 
 	private addRestartButton(): void {
-		GameHelper.createButton({
+		GameHelper.makeButton({
 			width: 200,
 			height: 48,
 			primaryColor: PRIMARY_COLOR,

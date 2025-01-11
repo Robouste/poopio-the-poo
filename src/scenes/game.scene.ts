@@ -131,11 +131,9 @@ export class GameScene {
 	private spawnClouds(): void {
 		add([
 			sprite(SpriteName.CLOUD, {
-				// random size
-				height: rand(32, 64),
-				width: rand(64, 128),
+				width: rand(64, 256),
 			}),
-			pos(width(), rand(0, height() * 0.75)),
+			pos(width(), rand(0, height() * 0.65)),
 			move(LEFT, 50 * this._difficulty),
 			GameSceneTag.Cloud,
 		]);

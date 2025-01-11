@@ -8,4 +8,7 @@ export enum SpriteName {
 	BULLET_IMPACT = "bullet_impact_sprite",
 	INVINCIBLE_IMPACT = "invincible_impact_sprite",
 	DRAGON = "dragon_sprite",
+	CONTAINER = "container_sprite",
+	BUTTON_PRIMARY = "button_primary_sprite",
+	BUTTON_SECONDARY = "button_secondary_sprite",
 }

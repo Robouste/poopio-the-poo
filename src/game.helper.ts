@@ -1,15 +1,14 @@
 import {
-	Anchor,
-	AnchorComp,
 	AreaComp,
 	ColorComp,
+	Comp,
 	GameObj,
-	OutlineComp,
 	PosComp,
 	RectComp,
-	Vec2,
+	SpriteComp,
 } from "kaplay";
 import { PRIMARY_COLOR } from "./constants";
+import { SpriteName } from "./enums/sprite-name.enum";
 import { RGBColor } from "./types/rgb-color.type";
 
 export class GameHelper {
@@ -25,60 +24,48 @@ export class GameHelper {
 		]);
 	}
 
-	public static createButton(params: {
-		width: number;
-		height: number;
-		primaryColor: RGBColor;
-		secondaryColor: RGBColor;
-		posX: number;
-		posY: number;
-		anchor?: Anchor | Vec2;
+	public static makeButton(params: {
+		type: "primary" | "secondary";
 		text: string;
-		onClick: () => void;
-	}): GameObj<
-		RectComp | PosComp | ColorComp | OutlineComp | AnchorComp | AreaComp
-	> {
-		const primaryColor = new Color(
-			params.primaryColor.r,
-			params.primaryColor.g,
-			params.primaryColor.b
-		);
-		const secondaryColor = new Color(
-			params.secondaryColor.r,
-			params.secondaryColor.g,
-			params.secondaryColor.b
-		);
-		const button = add([
-			rect(params.width, params.height),
-			outline(4, secondaryColor),
-			pos(params.posX, params.posY),
-			anchor(params.anchor ?? "topleft"),
-			area(),
-			color(secondaryColor),
-		]);
+		size?: {
+			width: number;
+			height: number;
+		};
+		action: () => void;
+	}): GameObj<SpriteComp | AreaComp> {
+		const spriteName =
+			params.type === "primary"
+				? SpriteName.BUTTON_PRIMARY
+				: SpriteName.BUTTON_SECONDARY;
 
-		button.add([
-			text(params.text),
-			pos(0, 0),
-			color(primaryColor),
-			"text",
-			anchor("center"),
-		]);
+		const spriteComp = sprite(spriteName);
 
+		if (params.size) {
+			spriteComp.width = params.size.width;
+			spriteComp.height = params.size.height;
+		}
+
+		const button = make([spriteComp, area()]);
+
+		button.add([text(params.text), pos(0, 0), anchor("center")]);
+
+		button.onClick(params.action);
 		button.onHover(() => {
 			setCursor("pointer");
-			button.color = primaryColor;
-			button.children[0].color = secondaryColor;
+			button.use(opacity(0.8));
 		});
-
 		button.onHoverEnd(() => {
 			setCursor("default");
-			button.color = secondaryColor;
-			button.children[0].color = primaryColor;
+			button.use(opacity(1));
 		});
 
-		button.onClick(() => params.onClick());
-
 		return button;
+	}
+
+	public static objectHasComponent<T extends Comp>(
+		obj: GameObj,
+		compName: string
+	): obj is GameObj<T> {
+		return obj.has(compName);
 	}
 }

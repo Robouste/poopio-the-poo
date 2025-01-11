@@ -76,6 +76,8 @@ export class AssetsLoader {
 		loadSprite(SpriteName.OBSTICLE_1, "sprites/toilet-paper.png");
 		loadSprite(SpriteName.OBSTICLE_2, "sprites/plunger.png");
 		loadSprite(SpriteName.TITLE, "sprites/title.png");
+		loadSprite(SpriteName.CONTAINER, "sprites/container.png");
+		loadSprite(SpriteName.BUTTON_PRIMARY, "sprites/button-primary.png");
 	}
 
 	public static loadSounds(): void {

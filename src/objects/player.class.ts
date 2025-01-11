@@ -4,6 +4,7 @@ import { GameSceneTag } from "../enums/game-scene-tag.enum";
 import { PlayerTag } from "../enums/player-tag.enum";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
+import { DebugHelper } from "../helpers/debug.helper";
 import { Dragon, Obsticle } from "../types/ennemy.type";
 
 export class Player {
@@ -26,16 +27,21 @@ export class Player {
 
 		onKeyPress(["space"], () => this.jump());
 
-		//onMousePress((button) => {
-			//switch (button) {
-				//case "left":
-					//this.jump();
-					//break;
-				//case "right":
-					//this.fire();
-					//break;
-			//}
-		//});
+		onMousePress((button) => {
+			// for some reason, mouse press is triggered on mobile touch
+			if (DebugHelper.isMobile) {
+				return;
+			}
+
+			switch (button) {
+				case "left":
+					this.jump();
+					break;
+				case "right":
+					this.fire();
+					break;
+			}
+		});
 
 		onKeyPress(["enter"], () => this.fire());
 
