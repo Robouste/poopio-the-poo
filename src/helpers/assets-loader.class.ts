@@ -75,11 +75,12 @@ export class AssetsLoader {
 		loadSprite(SpriteName.CLOUD, "sprites/cloud.png");
 		loadSprite(SpriteName.OBSTICLE_1, "sprites/toilet-paper.png");
 		loadSprite(SpriteName.OBSTICLE_2, "sprites/plunger.png");
-		loadSprite(SpriteName.TITLE, "sprites/title.png");
 		loadSprite(SpriteName.CONTAINER, "sprites/container.png");
-		loadSprite(SpriteName.CONTAINER_TITLE, "sprites/container-title.png");
 		loadSprite(SpriteName.BUTTON_PRIMARY, "sprites/button-primary.png");
 		loadSprite(SpriteName.BUTTON, "sprites/button.png");
+		loadSprite(SpriteName.FLOOR_ROCK, "sprites/floor-rock.png");
+		loadSprite(SpriteName.FLOOR_GRASS, "sprites/floor-grass.png");
+		loadSprite(SpriteName.BACKGROUND, "sprites/background.png");
 	}
 
 	public static loadSounds(): void {

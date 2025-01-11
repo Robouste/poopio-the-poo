@@ -21,6 +21,7 @@ export class Player {
 			body(),
 			anchor("botleft"),
 			PlayerTag.PLAYER,
+			z(99),
 		]);
 
 		this.ref.play("idle");

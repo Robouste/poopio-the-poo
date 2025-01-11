@@ -4,7 +4,6 @@ import {
 	EmptyComp,
 	GameObj,
 	PosComp,
-	RectComp,
 	SpriteComp,
 	TextComp,
 } from "kaplay";
@@ -20,7 +19,6 @@ import { Music } from "../enums/music.enum";
 import { PlayerTag } from "../enums/player-tag.enum";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
-import { GameHelper } from "../game.helper";
 import { DebugHelper } from "../helpers/debug.helper";
 import { Player } from "../objects/player.class";
 import { Dragon, Obsticle } from "../types/ennemy.type";
@@ -36,7 +34,7 @@ export class GameScene {
 		this._score = value;
 	}
 
-	private _background: GameObj<RectComp | PosComp | ColorComp>;
+	private _background: GameObj<ColorComp | SpriteComp>;
 	private _bgm: AudioPlay;
 	private _player: Player = new Player();
 	private _difficulty = 1;
@@ -46,7 +44,8 @@ export class GameScene {
 	}
 
 	constructor() {
-		this._background = GameHelper.addBackground();
+		this.addBackground();
+
 		this._levelLabel = add([
 			text(`Level: ${this._difficulty}`),
 			pos(24, 60),
@@ -72,14 +71,38 @@ export class GameScene {
 		);
 	}
 
+	private addBackground(): void {
+		this._background = add([
+			sprite(SpriteName.BACKGROUND, {
+				height: height(),
+				width: width(),
+			}),
+			color(255, 255, 255),
+		]);
+	}
+
 	private addPlatform(): void {
 		add([
-			rect(width(), PLATFORM_HEIGHT),
+			sprite(SpriteName.FLOOR_ROCK, {
+				tiled: true,
+				width: width(),
+				height: PLATFORM_HEIGHT,
+			}),
 			pos(0, height() - PLATFORM_HEIGHT),
-			outline(4),
 			area(),
 			body({ isStatic: true }),
-			color(127, 200, 250),
+			"ground",
+		]);
+
+		add([
+			sprite(SpriteName.FLOOR_GRASS, {
+				tiled: true,
+				width: width(),
+				height: 32,
+			}),
+			pos(0, height() - PLATFORM_HEIGHT),
+			area(),
+			body({ isStatic: true }),
 			"ground",
 		]);
 	}
@@ -206,6 +229,7 @@ export class GameScene {
 			area(),
 			pos(width(), rand(height() * 0.65, minPosY)),
 			health(dragonDifficulty.health),
+			z(98),
 			GameSceneTag.DRAGON,
 			{
 				speed: dragonDifficulty.speed,
@@ -248,7 +272,6 @@ export class GameScene {
 		this.animateLevelUpText();
 
 		const newBackgroundColor = this._background.color.darken(40);
-
 		this._background.use(color(newBackgroundColor));
 
 		get(GameSceneTag.OBSTICLE).forEach((obsticle: Obsticle) => {

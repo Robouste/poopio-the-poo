@@ -28,12 +28,7 @@ export class GameHelper {
 		};
 		action: () => void;
 	}): GameObj<SpriteComp | AreaComp> {
-		const spriteName =
-			params.type === "primary"
-				? SpriteName.BUTTON_PRIMARY
-				: SpriteName.BUTTON_SECONDARY;
-
-		const spriteComp = sprite(spriteName);
+		const spriteComp = sprite(SpriteName.BUTTON_PRIMARY);
 
 		if (params.size) {
 			spriteComp.width = params.size.width;
