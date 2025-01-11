@@ -17,7 +17,7 @@ export const getDifficultyConfig = (level: number): DifficultyConfig => {
 	const dragonDifficulty: DragonDifficulty = {
 		minWait: 5 - level * 0.3,
 		maxWait: 10 - level * 0.3,
-		speed: 300 + level * 100,
+		speed: 100 + level * 100,
 		amount: 1 + Math.floor(level / 2),
 		health: dragonHealth,
 	};
