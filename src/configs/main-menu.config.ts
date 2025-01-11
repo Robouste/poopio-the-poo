@@ -23,5 +23,5 @@ export const getMobileMainMenuConfig = (): MainMenuConfig => ({
 	},
 	textSize: 24,
 	gap: 64,
-	titleMarginTop: 42,
+	titleMarginTop: 48,
 });
