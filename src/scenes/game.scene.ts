@@ -9,10 +9,10 @@ import {
 } from "kaplay";
 import { getDifficultyConfig } from "../configs/difficulty.config";
 import {
-	OBSTICLE_GROUND_OFFSET,
-	OBSTICLE_HEIGHT,
-	PLATFORM_HEIGHT,
-} from "../constants";
+	getDesktopGameConfig,
+	getMobileGameConfig,
+} from "../configs/game.config";
+import { OBSTICLE_GROUND_OFFSET, OBSTICLE_HEIGHT } from "../constants";
 import { SceneName } from "../enums";
 import { GameSceneTag } from "../enums/game-scene-tag.enum";
 import { Music } from "../enums/music.enum";
@@ -22,6 +22,7 @@ import { SpriteName } from "../enums/sprite-name.enum";
 import { DebugHelper } from "../helpers/debug.helper";
 import { Player } from "../objects/player.class";
 import { Dragon, Obsticle } from "../types/ennemy.type";
+import { GameConfig } from "../types/game-config.type";
 
 type Cloud = GameObj<PosComp | SpriteComp | EmptyComp>;
 
@@ -34,6 +35,9 @@ export class GameScene {
 		this._score = value;
 	}
 
+	private _config: GameConfig = DebugHelper.isMobile
+		? getMobileGameConfig()
+		: getDesktopGameConfig();
 	private _background: GameObj<ColorComp | SpriteComp>;
 	private _bgm: AudioPlay;
 	private _player: Player = new Player();
@@ -86,9 +90,9 @@ export class GameScene {
 			sprite(SpriteName.FLOOR_ROCK, {
 				tiled: true,
 				width: width(),
-				height: PLATFORM_HEIGHT,
+				height: this._config.platformHeight,
 			}),
-			pos(0, height() - PLATFORM_HEIGHT),
+			pos(0, height() - this._config.platformHeight),
 			area(),
 			body({ isStatic: true }),
 			"ground",
@@ -100,7 +104,7 @@ export class GameScene {
 				width: width(),
 				height: 32,
 			}),
-			pos(0, height() - PLATFORM_HEIGHT),
+			pos(0, height() - this._config.platformHeight),
 			area(),
 			body({ isStatic: true }),
 			"ground",
@@ -174,7 +178,8 @@ export class GameScene {
 	): Obsticle {
 		const spriteWidth = spriteName === SpriteName.OBSTICLE_1 ? 48 : 32;
 
-		const basePosY = height() - PLATFORM_HEIGHT - OBSTICLE_GROUND_OFFSET;
+		const basePosY =
+			height() - this._config.platformHeight - OBSTICLE_GROUND_OFFSET;
 
 		const obsticle = make([
 			sprite(spriteName, {
@@ -203,7 +208,10 @@ export class GameScene {
 
 			obsticle.pos = lerp(
 				vec2(obsticle.pos.x, obsticle.pos.y - 2),
-				vec2(obsticle.pos.x, height() - PLATFORM_HEIGHT - 4),
+				vec2(
+					obsticle.pos.x,
+					height() - this._config.platformHeight - 4
+				),
 				t
 			);
 		});
@@ -217,7 +225,7 @@ export class GameScene {
 		const dragonHeight = 56;
 		const minPosY =
 			height() -
-			PLATFORM_HEIGHT -
+			this._config.platformHeight -
 			OBSTICLE_GROUND_OFFSET -
 			OBSTICLE_HEIGHT -
 			dragonHeight;
@@ -227,7 +235,7 @@ export class GameScene {
 				height: dragonHeight,
 			}),
 			area(),
-			pos(width(), rand(height() * 0.65, minPosY)),
+			pos(width(), rand(minPosY - 256, minPosY)),
 			health(dragonDifficulty.health),
 			z(98),
 			GameSceneTag.DRAGON,
