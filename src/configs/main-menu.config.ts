@@ -4,9 +4,9 @@ export const getDesktopMainMenuConfig = (): MainMenuConfig => ({
 	jumpControl: "Space or left mouse",
 	shootControl: "Enter or right mouse",
 	controlsContainer: {
-		width: 400,
-		height: 190,
-		yPos: height() / 2 - 64,
+		width: 800,
+		height: height() * 0.9,
+		yPos: height() / 2,
 	},
 	textSize: 24,
 	gap: 64,
@@ -17,8 +17,8 @@ export const getMobileMainMenuConfig = (): MainMenuConfig => ({
 	shootControl: "Tap right",
 	controlsContainer: {
 		width: width() * 0.8,
-		height: 190,
-		yPos: height() / 2 - 64,
+		height: height() * 0.9,
+		yPos: height() / 2,
 	},
 	textSize: 24,
 	gap: 64,

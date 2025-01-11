@@ -8,21 +8,14 @@ import {
 	RectComp,
 	SpriteComp,
 } from "kaplay";
-import { PRIMARY_COLOR } from "./constants";
+import { Config } from "./configs/global.config";
 import { SpriteName } from "./enums/sprite-name.enum";
-import { RGBColor } from "./types/rgb-color.type";
 
 export class GameHelper {
 	public static addBackground(
-		bgColor: RGBColor = PRIMARY_COLOR
+		bgColor: ColorComp = Config.primaryColor
 	): GameObj<RectComp | PosComp | ColorComp> {
-		// background
-
-		return add([
-			rect(width(), height()),
-			pos(0, 0),
-			color(bgColor.r, bgColor.g, bgColor.b),
-		]);
+		return add([rect(width(), height()), pos(0, 0), bgColor]);
 	}
 
 	public static makeButton(params: {

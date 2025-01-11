@@ -9,6 +9,8 @@ export enum SpriteName {
 	INVINCIBLE_IMPACT = "invincible_impact_sprite",
 	DRAGON = "dragon_sprite",
 	CONTAINER = "container_sprite",
+	CONTAINER_TITLE = "container_title_sprite",
 	BUTTON_PRIMARY = "button_primary_sprite",
 	BUTTON_SECONDARY = "button_secondary_sprite",
+	BUTTON = "button_sprite",
 }

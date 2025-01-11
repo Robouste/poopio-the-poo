@@ -8,7 +8,7 @@ import {
 	SpriteComp,
 	TextComp,
 } from "kaplay";
-import { PLATFORM_HEIGHT, PRIMARY_COLOR } from "../constants";
+import { PLATFORM_HEIGHT } from "../constants";
 import { SceneName } from "../enums";
 import { GameSceneTag } from "../enums/game-scene-tag.enum";
 import { Music } from "../enums/music.enum";
@@ -41,7 +41,7 @@ export class GameScene {
 	}
 
 	constructor() {
-		this._background = GameHelper.addBackground({ ...PRIMARY_COLOR });
+		this._background = GameHelper.addBackground();
 		this._levelLabel = add([
 			text(`Level: ${this._difficulty}`),
 			pos(24, 60),
