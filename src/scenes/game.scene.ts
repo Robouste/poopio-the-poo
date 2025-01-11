@@ -150,7 +150,7 @@ export class GameScene {
 			sprite(SpriteName.CLOUD, {
 				width: rand(64, 256),
 			}),
-			pos(width(), rand(0, height() * 0.65)),
+			pos(width(), rand(0, height() - this._config.platformHeight - 256)),
 			move(LEFT, 50 * this._difficulty),
 			GameSceneTag.Cloud,
 		]);
