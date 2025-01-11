@@ -1,5 +1,4 @@
 import { AnchorComp, AudioPlay, GameObj, PosComp, TextComp } from "kaplay";
-import { PRIMARY_COLOR } from "../constants";
 import { SceneName } from "../enums";
 import { SoundTag } from "../enums/sound.enum";
 import { GameHelper } from "../game.helper";
@@ -52,17 +51,16 @@ export class GameOverScene {
 	}
 
 	private addRestartButton(): void {
-		GameHelper.makeButton({
-			width: 200,
-			height: 48,
-			primaryColor: PRIMARY_COLOR,
-			secondaryColor: new Color(255, 255, 255),
-			posX: this._scoreText.pos.x,
-			posY: this._bestScoreText.pos.y + 60,
+		const button = GameHelper.makeButton({
+			type: "primary",
 			text: "Restart",
-			anchor: "center",
-			onClick: () => this.restart(),
+			action: () => this.restart(),
+			anchorPos: "center",
 		});
+
+		button.use(pos(this._scoreText.pos.x, this._bestScoreText.pos.y + 96));
+
+		add(button);
 	}
 
 	private restart(): void {

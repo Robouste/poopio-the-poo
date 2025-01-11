@@ -105,7 +105,11 @@ export class MainMenuScene {
 		const startButton = GameHelper.makeButton({
 			type: "primary",
 			text: "Start",
-			action: () => this.start(),
+			action: () => {
+				play(SoundTag.LEVEL_UP);
+				this.start();
+			},
+			anchorPos: "center",
 		});
 
 		const yPos =
@@ -114,7 +118,6 @@ export class MainMenuScene {
 			this._config.gap;
 
 		startButton.use(pos(width() / 2, yPos));
-		startButton.use(anchor("center"));
 
 		add(startButton);
 	}

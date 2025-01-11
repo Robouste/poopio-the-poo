@@ -1,4 +1,5 @@
 import {
+	Anchor,
 	AreaComp,
 	ColorComp,
 	Comp,
@@ -27,6 +28,7 @@ export class GameHelper {
 	public static makeButton(params: {
 		type: "primary" | "secondary";
 		text: string;
+		anchorPos: Anchor;
 		size?: {
 			width: number;
 			height: number;
@@ -45,9 +47,9 @@ export class GameHelper {
 			spriteComp.height = params.size.height;
 		}
 
-		const button = make([spriteComp, area()]);
+		const button = make([spriteComp, area(), anchor(params.anchorPos)]);
 
-		button.add([text(params.text), pos(0, 0), anchor("center")]);
+		button.add([text(params.text), pos(0, 0), anchor(params.anchorPos)]);
 
 		button.onClick(params.action);
 		button.onHover(() => {
