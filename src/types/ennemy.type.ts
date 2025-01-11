@@ -4,7 +4,6 @@ import {
 	EmptyComp,
 	GameObj,
 	HealthComp,
-	OutlineComp,
 	PosComp,
 	SpriteComp,
 } from "kaplay";
@@ -13,7 +12,6 @@ export type Obsticle = GameObj<
 	| SpriteComp
 	| PosComp
 	| AreaComp
-	| OutlineComp
 	| AnchorComp
 	| EmptyComp
 	| {

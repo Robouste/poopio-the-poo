@@ -8,7 +8,12 @@ import {
 	SpriteComp,
 	TextComp,
 } from "kaplay";
-import { PLATFORM_HEIGHT } from "../constants";
+import { getDifficultyConfig } from "../configs/difficulty.config";
+import {
+	OBSTICLE_GROUND_OFFSET,
+	OBSTICLE_HEIGHT,
+	PLATFORM_HEIGHT,
+} from "../constants";
 import { SceneName } from "../enums";
 import { GameSceneTag } from "../enums/game-scene-tag.enum";
 import { Music } from "../enums/music.enum";
@@ -18,7 +23,7 @@ import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
 import { DebugHelper } from "../helpers/debug.helper";
 import { Player } from "../objects/player.class";
-import { Obsticle } from "../types/ennemy.type";
+import { Dragon, Obsticle } from "../types/ennemy.type";
 
 type Cloud = GameObj<PosComp | SpriteComp | EmptyComp>;
 
@@ -83,49 +88,34 @@ export class GameScene {
 		const spriteName =
 			rand(0, 1) > 0.5 ? SpriteName.OBSTICLE_1 : SpriteName.OBSTICLE_2;
 
-		this.addObsticle(spriteName, width());
+		const obsticleDifficulty = getDifficultyConfig(
+			this._difficulty
+		).obsticle;
 
-		const minTime = 0.9 - this._difficulty * 0.07;
-		const maxTime = 1.5 - this._difficulty * 0.07;
+		const obsticle = this.makeObsticle(
+			spriteName,
+			width(),
+			obsticleDifficulty.speed
+		);
 
-		wait(rand(minTime, maxTime), () => {
-			this.spawnObsticle();
-		});
+		add(obsticle);
+
+		wait(
+			rand(obsticleDifficulty.minWait, obsticleDifficulty.maxWait),
+			() => {
+				this.spawnObsticle();
+			}
+		);
 	}
 
 	private spawnDragon(): void {
-		const dragon = add([
-			sprite(SpriteName.DRAGON),
-			area(),
-			pos(width(), rand(height() * 0.7, height() * 0.8)),
-			health(60),
-			GameSceneTag.DRAGON,
-			{
-				speed: this._difficultySpeed,
-			},
-		]);
+		const dragonDifficulty = getDifficultyConfig(this._difficulty).dragon;
 
-		onUpdate(() => {
-			const playerPos = this._player.ref.pos;
+		loop(0.3, () => add(this.makeDragon()), dragonDifficulty.amount);
 
-			dragon.moveTo(
-				playerPos.x,
-				playerPos.y - this._player.ref.height / 2,
-				this._difficultySpeed
-			);
-		});
-
-		dragon.play("fly");
-
-		dragon.onCollide(PlayerTag.PLAYER, () => {
-			dragon.destroy();
-			this.gameOver();
-		});
-
-		const minWait = 5 - this._difficulty * 0.3;
-		const maxWait = 10 - this._difficulty * 0.3;
-
-		wait(rand(minWait, maxWait), () => this.spawnDragon());
+		wait(rand(dragonDifficulty.minWait, dragonDifficulty.maxWait), () =>
+			this.spawnDragon()
+		);
 	}
 
 	private spawnClouds(): void {
@@ -154,25 +144,28 @@ export class GameScene {
 		});
 	}
 
-	private addObsticle(spriteName: string, posX: number): Obsticle {
+	private makeObsticle(
+		spriteName: string,
+		posX: number,
+		speed: number
+	): Obsticle {
 		const spriteWidth = spriteName === SpriteName.OBSTICLE_1 ? 48 : 32;
 
-		const basePosY = height() - PLATFORM_HEIGHT - 12;
+		const basePosY = height() - PLATFORM_HEIGHT - OBSTICLE_GROUND_OFFSET;
 
-		const obsticle = add([
+		const obsticle = make([
 			sprite(spriteName, {
-				height: 48,
+				height: OBSTICLE_HEIGHT,
 				width: spriteWidth,
 			}),
 			area(),
-			outline(4, new Color(0, 0, 0)),
 			pos(posX, basePosY),
 			anchor("botleft"),
-			move(LEFT, this._difficultySpeed),
+			move(LEFT, speed),
 			GameSceneTag.OBSTICLE,
 			{
 				time: 0,
-				speed: this._difficultySpeed,
+				speed,
 			},
 		]);
 
@@ -181,6 +174,7 @@ export class GameScene {
 				destroy(obsticle);
 				return;
 			}
+
 			obsticle.time += dt();
 			const t = (obsticle.time % 0.5) / 2;
 
@@ -192,6 +186,59 @@ export class GameScene {
 		});
 
 		return obsticle;
+	}
+
+	private makeDragon(): Dragon {
+		const dragonDifficulty = getDifficultyConfig(this._difficulty).dragon;
+
+		const dragonHeight = 56;
+		const minPosY =
+			height() -
+			PLATFORM_HEIGHT -
+			OBSTICLE_GROUND_OFFSET -
+			OBSTICLE_HEIGHT -
+			dragonHeight;
+
+		const dragon = make([
+			sprite(SpriteName.DRAGON, {
+				height: dragonHeight,
+			}),
+			area(),
+			pos(width(), rand(height() * 0.65, minPosY)),
+			health(dragonDifficulty.health),
+			GameSceneTag.DRAGON,
+			{
+				speed: dragonDifficulty.speed,
+			},
+		]);
+
+		onUpdate(() => {
+			if (dragon.pos.x + dragon.width < 0) {
+				destroy(dragon);
+				return;
+			}
+
+			const playerPos = this._player.ref.pos;
+			const playerPosY = playerPos.y - this._player.ref.height / 2;
+
+			// prevent dragon from going behind the obsticles
+			const posY = Math.min(playerPosY, minPosY);
+
+			dragon.moveTo(
+				-100,
+				posY,
+				getDifficultyConfig(this._difficulty).dragon.speed
+			);
+		});
+
+		dragon.play("fly");
+
+		dragon.onCollide(PlayerTag.PLAYER, () => {
+			dragon.destroy();
+			this.gameOver();
+		});
+
+		return dragon;
 	}
 
 	private incrementDifficultyLevel(): void {
