@@ -1,22 +1,30 @@
 import { AreaComp, BodyComp, GameObj, PosComp, SpriteComp } from "kaplay";
-import { PLATFORM_HEIGHT } from "../constants";
+import {
+	getDesktopGameConfig,
+	getMobileGameConfig,
+} from "../configs/game.config";
 import { GameSceneTag } from "../enums/game-scene-tag.enum";
 import { PlayerTag } from "../enums/player-tag.enum";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { DebugHelper } from "../helpers/debug.helper";
 import { Dragon, Obsticle } from "../types/ennemy.type";
+import { GameConfig } from "../types/game-config.type";
 
 export class Player {
 	public ref: GameObj<SpriteComp | PosComp | AreaComp | BodyComp>;
 	public jumps = 2;
+
+	private _config: GameConfig = DebugHelper.isMobile
+		? getMobileGameConfig()
+		: getDesktopGameConfig();
 
 	constructor() {}
 
 	public init(): void {
 		this.ref = add([
 			sprite(SpriteName.PLAYER),
-			pos(80, height() - PLATFORM_HEIGHT - 48),
+			pos(80, height() - this._config.platformHeight - 48),
 			area(),
 			body(),
 			anchor("botleft"),
