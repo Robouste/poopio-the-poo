@@ -63,7 +63,11 @@ export class MainMenuScene {
 		container.add([
 			text("Poopio the Poo"),
 			anchor("center"),
-			pos(8, -this._controlsContainer.height / 2 + 36),
+			pos(
+				8,
+				-this._controlsContainer.height / 2 +
+					this._config.titleMarginTop
+			),
 			color("#543e2a"),
 		]);
 

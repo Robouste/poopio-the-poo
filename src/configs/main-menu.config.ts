@@ -10,6 +10,7 @@ export const getDesktopMainMenuConfig = (): MainMenuConfig => ({
 	},
 	textSize: 24,
 	gap: 64,
+	titleMarginTop: 36,
 });
 
 export const getMobileMainMenuConfig = (): MainMenuConfig => ({
@@ -22,4 +23,5 @@ export const getMobileMainMenuConfig = (): MainMenuConfig => ({
 	},
 	textSize: 24,
 	gap: 64,
+	titleMarginTop: 42,
 });

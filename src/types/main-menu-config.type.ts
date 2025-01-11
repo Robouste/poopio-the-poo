@@ -4,6 +4,7 @@ export type MainMenuConfig = {
 	textSize: number;
 	gap: number;
 	controlsContainer: ControlsContainerParams;
+	titleMarginTop: number;
 };
 
 export type ControlsContainerParams = {
