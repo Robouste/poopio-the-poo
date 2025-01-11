@@ -17,7 +17,7 @@ export const getMobileMainMenuConfig = (): MainMenuConfig => ({
 	shootControl: "Tap right",
 	controlsContainer: {
 		width: width() * 0.8,
-		height: height() * 0.9,
+		height: height() * 0.7,
 		yPos: height() / 2,
 	},
 	textSize: 24,
