@@ -3,12 +3,13 @@ export type MainMenuConfig = {
 	shootControl: string;
 	textSize: number;
 	gap: number;
-	controlsContainer: ControlsContainerParams;
+	container: MenuContainer;
 	titleMarginTop: number;
 };
 
-export type ControlsContainerParams = {
+export type MenuContainer = {
 	width: number;
 	height: number;
 	yPos: number;
+	gap: number;
 };

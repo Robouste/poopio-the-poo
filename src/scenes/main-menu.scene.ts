@@ -1,3 +1,12 @@
+import {
+	AnchorComp,
+	AreaComp,
+	ColorComp,
+	GameObj,
+	PosComp,
+	SpriteComp,
+	TextComp,
+} from "kaplay";
 import { Config } from "../configs/global.config";
 import {
 	getDesktopMainMenuConfig,
@@ -8,18 +17,15 @@ import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
 import { DebugHelper } from "../helpers/debug.helper";
-import {
-	ControlsContainerParams,
-	MainMenuConfig,
-} from "../types/main-menu-config.type";
+import { MainMenuConfig, MenuContainer } from "../types/main-menu-config.type";
 
 export class MainMenuScene {
 	private _config: MainMenuConfig = DebugHelper.isMobile
 		? getMobileMainMenuConfig()
 		: getDesktopMainMenuConfig();
 
-	private get _controlsContainer(): ControlsContainerParams {
-		return this._config.controlsContainer;
+	private get _menuContainer(): MenuContainer {
+		return this._config.container;
 	}
 
 	constructor() {
@@ -31,68 +37,70 @@ export class MainMenuScene {
 			volume: isDevMode ? 0 : 0.2,
 		});
 
-		// this.addTitle();
-		this.addControlsBox();
-		this.addStartButton();
+		this.buildMenu();
 
 		onKeyPress(["space", "enter"], () => this.start());
 	}
 
-	// private addTitle(): void {
-	// 	const titleWidth = Math.min(width() * 0.8, 400);
-
-	// 	add([
-	// 		sprite(SpriteName.TITLE, {
-	// 			width: titleWidth,
-	// 		}),
-	// 		pos(width() / 2, height() * 0.2),
-	// 		anchor("center"),
-	// 	]);
-	// }
-
-	private addControlsBox(): void {
+	private buildMenu(): void {
 		const container = add([
 			sprite(SpriteName.CONTAINER, {
-				width: this._config.controlsContainer.width,
-				height: this._config.controlsContainer.height,
+				width: this._config.container.width,
+				height: this._config.container.height,
 			}),
-			pos(width() / 2, this._config.controlsContainer.yPos),
+			pos(width() / 2, this._config.container.yPos),
 			anchor("center"),
 		]);
 
-		container.add([
+		const title = this.makeTitle();
+		container.add(title);
+
+		const controlsBox = this.makeControlsBox();
+		container.add(controlsBox);
+
+		const startButton = this.makeStartButton();
+		container.add(startButton);
+	}
+
+	private makeTitle(): GameObj<ColorComp | PosComp | AnchorComp | TextComp> {
+		const title = make([
 			text("Poopio the Poo"),
 			anchor("center"),
 			pos(
 				8,
-				-this._controlsContainer.height / 2 +
-					this._config.titleMarginTop
+				-this._menuContainer.height / 2 + this._config.titleMarginTop
 			),
 			color("#543e2a"),
 		]);
 
-		container.add([
+		return title;
+	}
+
+	private makeControlsBox(): GameObj<PosComp | AnchorComp> {
+		const controlsBox = make([pos(0, 0), anchor("center"), opacity(0)]);
+
+		controlsBox.add([
 			text("CONTROLS:", {
 				size: this._config.textSize,
 			}),
 			anchor("top"),
 			"innerText",
 		]);
-		container.add([
+		controlsBox.add([
 			text(`JUMP: ${this._config.jumpControl}`, {
 				size: this._config.textSize,
 			}),
 			anchor("top"),
 			"innerText",
 		]);
-		container.add([
+		controlsBox.add([
 			text("You can double jump", {
 				size: this._config.textSize,
 			}),
 			anchor("top"),
 			"innerText",
 		]);
-		container.add([
+		controlsBox.add([
 			text(`SHOOT: ${this._config.shootControl}`, {
 				size: this._config.textSize,
 			}),
@@ -100,12 +108,34 @@ export class MainMenuScene {
 			"innerText",
 		]);
 
+		const children = controlsBox.get("innerText");
+
+		// height is calculated based on the number of children and the gap between them
+		const controlsBoxHeight =
+			children.length * (this._config.textSize + this._menuContainer.gap);
+
+		controlsBox.use(rect(this._menuContainer.width, controlsBoxHeight));
+
+		children.forEach((child, index) => {
+			const gap = this._menuContainer.gap;
+
+			const childHeightPosition = index * (this._config.textSize + gap);
+
+			child.use(pos(0, childHeightPosition - controlsBoxHeight / 2));
+		});
+
+		return controlsBox;
+	}
+
+	private makeStartButton(): GameObj<
+		SpriteComp | AreaComp | PosComp | AnchorComp
+	> {
 		const startButton = make([
 			sprite(SpriteName.BUTTON, {
 				width: 196,
 			}),
 			area(),
-			pos(0, this._controlsContainer.height / 2 - 128),
+			pos(0, this._menuContainer.height / 2 - 128),
 			anchor("center"),
 		]);
 
@@ -129,50 +159,7 @@ export class MainMenuScene {
 
 		startButton.onClick(() => this.start());
 
-		container.add(startButton);
-
-		container.get("innerText").forEach((child, index) => {
-			const paddingTop = 256;
-			const gap = 16;
-
-			const childHeightPosition =
-				paddingTop + index * (this._config.textSize + gap);
-
-			child.use(
-				pos(
-					0,
-					childHeightPosition -
-						this._config.controlsContainer.height / 2
-				)
-			);
-		});
-	}
-
-	private addStartButton(): void {
-		const startButton = GameHelper.makeButton({
-			type: "primary",
-			text: "Start",
-			action: () => {
-				play(SoundTag.LEVEL_UP);
-				this.start();
-			},
-			anchorPos: "center",
-		});
-
-		const yPos =
-			this._controlsContainer.yPos +
-			this._controlsContainer.height +
-			this._config.gap;
-
-		console.log(
-			"this._controlsContainer.yPos",
-			this._controlsContainer.yPos
-		);
-		console.log("yPos", yPos);
-
-		startButton.use(pos(width() / 2, yPos));
-
-		add(startButton);
+		return startButton;
 	}
 
 	private start(): void {
