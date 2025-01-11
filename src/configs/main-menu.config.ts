@@ -23,7 +23,7 @@ export const getMobileMainMenuConfig = (): MainMenuConfig => ({
 		yPos: height() / 2,
 		gap: 16,
 	},
-	textSize: 24,
+	textSize: 36,
 	gap: 64,
-	titleMarginTop: 48,
+	titleMarginTop: 56,
 });
