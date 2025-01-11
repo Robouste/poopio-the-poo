@@ -70,7 +70,7 @@ export class MainMenuScene {
 				8,
 				-this._menuContainer.height / 2 + this._config.titleMarginTop
 			),
-			color("#543e2a"),
+			color("#806854"),
 		]);
 
 		return title;
