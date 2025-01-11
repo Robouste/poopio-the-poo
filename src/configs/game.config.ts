@@ -5,5 +5,5 @@ export const getDesktopGameConfig = (): GameConfig => ({
 });
 
 export const getMobileGameConfig = (): GameConfig => ({
-	platformHeight: height() / 6,
+	platformHeight: height() / 3,
 });
