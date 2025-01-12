@@ -26,3 +26,4 @@ scene(SceneName.GAME_OVER, (params: { score: number; bgm: AudioPlay }) => {
 });
 
 go(SceneName.MAIN_MENU);
+// go(SceneName.GAME_OVER, { score: 0, bgm: undefined });

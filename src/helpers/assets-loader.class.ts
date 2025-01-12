@@ -109,6 +109,7 @@ export class AssetsLoader {
 			SpriteName.FLOOR_GRASS_6,
 			"sprites/floors/floor-grass-6.png"
 		);
+		loadSprite(SpriteName.GAME_OVER, "sprites/game-over.png");
 	}
 
 	public static loadSounds(): void {

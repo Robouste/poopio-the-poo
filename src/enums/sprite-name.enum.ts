@@ -23,4 +23,5 @@ export enum SpriteName {
 	FLOOR_ROCK_6 = "floor_rock_6_sprite",
 	FLOOR_GRASS_6 = "floor_grass_6_sprite",
 	BACKGROUND = "background_sprite",
+	GAME_OVER = "game_over_sprite",
 }

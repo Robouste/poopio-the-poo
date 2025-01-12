@@ -13,7 +13,7 @@ import { SpriteName } from "./enums/sprite-name.enum";
 
 export class GameHelper {
 	public static addBackground(
-		bgColor: ColorComp = Config.primaryColor
+		bgColor: ColorComp = Config.blueColor
 	): GameObj<RectComp | PosComp | ColorComp> {
 		return add([rect(width(), height()), pos(0, 0), bgColor]);
 	}

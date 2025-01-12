@@ -1,29 +1,32 @@
 import { AnchorComp, AudioPlay, GameObj, PosComp, TextComp } from "kaplay";
+import { Config } from "../configs/global.config";
 import { SceneName } from "../enums";
 import { SoundTag } from "../enums/sound.enum";
+import { SpriteName } from "../enums/sprite-name.enum";
 import { GameHelper } from "../game.helper";
 
 export class GameOverScene {
-	private _gameOverText: GameObj<TextComp | PosComp | AnchorComp>;
 	private _scoreText: GameObj<TextComp | PosComp | AnchorComp>;
 	private _bestScoreText: GameObj<TextComp | PosComp | AnchorComp>;
 	private _gameOverSound: AudioPlay;
 
 	constructor(score: number, bgm: AudioPlay | undefined) {
-		GameHelper.addBackground();
+		GameHelper.addBackground(Config.containercolor);
 		bgm?.stop();
 
 		this._gameOverSound = play(SoundTag.GAME_OVER);
 
-		this._gameOverText = add([
-			text("Game Over"),
+		const gameOverSprite = add([
+			sprite(SpriteName.GAME_OVER, {
+				height: 292,
+			}),
 			pos(center()),
 			anchor("center"),
 		]);
 
 		this._scoreText = add([
 			text(`Score: ${score}`),
-			pos(this._gameOverText.pos.x, this._gameOverText.pos.y + 48),
+			pos(gameOverSprite.pos.x, gameOverSprite.pos.y + 292 / 2 + 48),
 			anchor("center"),
 		]);
 
@@ -51,16 +54,34 @@ export class GameOverScene {
 	}
 
 	private addRestartButton(): void {
-		const button = GameHelper.makeButton({
-			type: "primary",
-			text: "Restart",
-			action: () => this.restart(),
-			anchorPos: "center",
+		const restartButton = add([
+			sprite(SpriteName.BUTTON, {
+				width: 196,
+			}),
+			area(),
+			pos(width() / 2, this._bestScoreText.pos.y + 96),
+			anchor("center"),
+		]);
+
+		restartButton.add([
+			text("Restart", {
+				size: 24,
+			}),
+			pos(0, 0),
+			anchor("center"),
+		]);
+
+		restartButton.onHover(() => {
+			setCursor("pointer");
+			restartButton.use(opacity(0.8));
 		});
 
-		button.use(pos(this._scoreText.pos.x, this._bestScoreText.pos.y + 96));
+		restartButton.onHoverEnd(() => {
+			setCursor("default");
+			restartButton.use(opacity(1));
+		});
 
-		add(button);
+		restartButton.onClick(() => this.restart());
 	}
 
 	private restart(): void {
