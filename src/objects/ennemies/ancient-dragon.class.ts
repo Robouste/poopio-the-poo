@@ -85,8 +85,9 @@ export class AncientDragon extends Ennemy<DragonComp> {
 		shockwave.play("move");
 
 		shockwave.onCollide(PlayerTag.PLAYER, (player) => {
-			player.destroy();
 			shockwave.destroy();
+			this.ref.destroy();
+			player.destroy();
 		});
 
 		shockwave.onUpdate(() => {
@@ -110,8 +111,11 @@ export class AncientDragon extends Ennemy<DragonComp> {
 				flipX: true,
 				height: 96,
 			}),
-			area(),
+			area({
+				scale: vec2(0.7),
+			}),
 			pos(this.ref.pos.x, this.ref.pos.y),
+			anchor("center"),
 		]);
 
 		fireball.play("move");
@@ -122,8 +126,9 @@ export class AncientDragon extends Ennemy<DragonComp> {
 		});
 
 		fireball.onCollide(PlayerTag.PLAYER, (player) => {
-			player.destroy();
 			fireball.destroy();
+			this.ref.destroy();
+			player.destroy();
 		});
 
 		fireball.onUpdate(() => {
