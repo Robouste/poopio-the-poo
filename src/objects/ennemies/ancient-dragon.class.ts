@@ -100,7 +100,11 @@ export class AncientDragon extends Ennemy<DragonComp> {
 
 		add(shockwave);
 
-		wait(rand(4, 6), () => this.spawnShockwave());
+		wait(rand(4, 6), () => {
+			if (this.ref.exists()) {
+				this.spawnShockwave();
+			}
+		});
 	}
 
 	private spawnFireball(): void {
@@ -147,6 +151,10 @@ export class AncientDragon extends Ennemy<DragonComp> {
 
 		add(fireball);
 
-		wait(rand(3, 7), () => this.spawnFireball());
+		wait(rand(3, 7), () => {
+			if (this.ref.exists()) {
+				this.spawnFireball();
+			}
+		});
 	}
 }
