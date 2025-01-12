@@ -19,7 +19,10 @@ export class AncientDragon extends Ennemy<DragonComp> {
 				height: dragonHeight,
 			}),
 			area(),
-			pos(width(), height() / 2),
+			pos(
+				width(),
+				height() - this._gameConfig.platformHeight - 128 - dragonHeight
+			),
 			health(2000),
 			z(98),
 			GameSceneTag.ANCIENT_DRAGON,
