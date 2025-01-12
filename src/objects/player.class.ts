@@ -7,7 +7,6 @@ import { PlayerTag } from "../enums/player-tag.enum";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { DebugHelper } from "../helpers/debug.helper";
-import { DragonComp, ObsticleComp } from "../types/ennemy.type";
 import { GameConfig } from "../types/game-config.type";
 import { PlayerComp } from "../types/player.type";
 
@@ -101,48 +100,5 @@ export class Player {
 		]);
 
 		bullet.play("move");
-
-		bullet.onCollide(GameSceneTag.OBSTICLE, (obsticle: ObsticleComp) => {
-			play(SoundTag.IMPACT_INVINCIBLE, {
-				volume: 0.8,
-			});
-
-			const impact = add([
-				sprite(SpriteName.INVINCIBLE_IMPACT),
-				pos(bullet.pos.x, bullet.pos.y - bullet.height),
-				area(),
-				move(LEFT, obsticle.speed),
-			]);
-
-			impact.onAnimEnd(() => impact.destroy());
-
-			impact.play("impact");
-			destroy(bullet);
-		});
-
-		bullet.onCollide(GameSceneTag.DRAGON, (dragon: DragonComp) => {
-			play(SoundTag.IMPACT, {
-				volume: 0.7,
-			});
-
-			dragon.hurt(30);
-
-			const dragonIsDead = dragon.hp() <= 0;
-
-			const impact = add([
-				sprite(SpriteName.BULLET_IMPACT),
-				pos(bullet.pos.x, bullet.pos.y - bullet.height),
-				area(),
-				move(LEFT, dragon.speed),
-			]);
-
-			if (dragonIsDead) {
-				dragon.destroy();
-			}
-
-			impact.play("impact");
-			impact.onAnimEnd(() => impact.destroy());
-			destroy(bullet);
-		});
 	}
 }

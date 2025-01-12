@@ -1,6 +1,7 @@
 import { OBSTICLE_GROUND_OFFSET, OBSTICLE_HEIGHT } from "../../constants";
 import { GameSceneTag } from "../../enums/game-scene-tag.enum";
 import { PlayerTag } from "../../enums/player-tag.enum";
+import { SoundTag } from "../../enums/sound.enum";
 import { SpriteName } from "../../enums/sprite-name.enum";
 import { DragonSpawnSettings } from "../../types/difficulty-config.type";
 import { DragonComp } from "../../types/ennemy.type";
@@ -12,7 +13,6 @@ export class Dragon extends Ennemy<DragonComp> {
 	protected spriteName = SpriteName.DRAGON;
 
 	constructor(
-		protected onCollide: () => void,
 		private _spawnSettings: DragonSpawnSettings,
 		private _gameConfig: GameConfig
 	) {
@@ -54,14 +54,44 @@ export class Dragon extends Ennemy<DragonComp> {
 			// prevent dragon from going behind the obsticles
 			const posY = Math.min(playerPosY, minPosY);
 
-			this.ref.moveTo(-100, posY, this._spawnSettings.speed);
+			this.ref.moveTo(-500, posY, this._spawnSettings.speed);
 		});
 
 		this.ref.play("fly");
 
-		this.ref.onCollide(PlayerTag.PLAYER, () => {
+		this.ref.onCollide(PlayerTag.PLAYER, (player) => {
 			this.ref.destroy();
-			this.onCollide();
+			player.destroy();
+		});
+
+		this.ref.onCollide(PlayerTag.BULLET, (bullet) => {
+			play(SoundTag.IMPACT, {
+				volume: 0.7,
+			});
+
+			this.ref.hurt(30);
+
+			const isDead = this.ref.hp() <= 0;
+
+			const impact = add([
+				sprite(SpriteName.BULLET_IMPACT),
+				pos(bullet.pos.x, bullet.pos.y - bullet.height),
+				area(),
+				move(LEFT, this.ref.speed),
+			]);
+
+			if (isDead) {
+				this.ref.destroy();
+			}
+
+			this.ref.play("hurt", {
+				onEnd: () => this.ref.play("fly"),
+			});
+
+			impact.play("impact");
+
+			impact.onAnimEnd(() => impact.destroy());
+			bullet.destroy();
 		});
 	}
 }

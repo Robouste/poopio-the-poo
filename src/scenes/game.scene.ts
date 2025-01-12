@@ -61,6 +61,7 @@ export class GameScene {
 		this._levelLabel = add([
 			text(`Level: ${this._level.value}`),
 			pos(24, 60),
+			z(100),
 		]);
 		setGravity(1800);
 
@@ -77,6 +78,8 @@ export class GameScene {
 		wait(2, () => this.spawnDragon());
 		this.spawnClouds();
 		this.addScore();
+
+		this._player.ref.onDestroy(() => this.gameOver());
 	}
 
 	private addBackground(): void {
@@ -117,8 +120,7 @@ export class GameScene {
 		const obsticle = new Obsticle(
 			spriteName,
 			obsticleDifficulty,
-			this._config,
-			() => this.gameOver()
+			this._config
 		);
 
 		obsticle.add();
@@ -137,11 +139,7 @@ export class GameScene {
 		loop(
 			0.3,
 			() => {
-				const dragon = new Dragon(
-					() => this.gameOver(),
-					dragonDifficulty,
-					this._config
-				);
+				const dragon = new Dragon(dragonDifficulty, this._config);
 				dragon.add();
 			},
 			dragonDifficulty.amount
@@ -166,7 +164,7 @@ export class GameScene {
 	}
 
 	private addScore(): void {
-		const scoreLabel = add([text(this.score), pos(24, 24)]);
+		const scoreLabel = add([text(this.score), pos(24, 24), z(100)]);
 
 		loop(0.01, () => {
 			this._score++;
@@ -202,6 +200,7 @@ export class GameScene {
 			pos(center()),
 			anchor("center"),
 			animate(),
+			z(100),
 		]);
 
 		levelUpText.animate(

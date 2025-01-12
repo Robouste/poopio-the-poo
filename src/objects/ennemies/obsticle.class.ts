@@ -1,6 +1,7 @@
 import { OBSTICLE_GROUND_OFFSET, OBSTICLE_HEIGHT } from "../../constants";
 import { GameSceneTag } from "../../enums/game-scene-tag.enum";
 import { PlayerTag } from "../../enums/player-tag.enum";
+import { SoundTag } from "../../enums/sound.enum";
 import { SpriteName } from "../../enums/sprite-name.enum";
 import { SpawnSettings } from "../../types/difficulty-config.type";
 import { ObsticleComp } from "../../types/ennemy.type";
@@ -11,8 +12,7 @@ export class Obsticle extends Ennemy<ObsticleComp> {
 	constructor(
 		protected spriteName: SpriteName,
 		private _spawnSettings: SpawnSettings,
-		private _config: GameConfig,
-		protected onCollide: () => void
+		private _config: GameConfig
 	) {
 		super();
 
@@ -57,9 +57,27 @@ export class Obsticle extends Ennemy<ObsticleComp> {
 			);
 		});
 
-		this.ref.onCollide(PlayerTag.PLAYER, () => {
+		this.ref.onCollide(PlayerTag.PLAYER, (player) => {
 			this.ref.destroy();
-			this.onCollide();
+			player.destroy();
+		});
+
+		this.ref.onCollide(PlayerTag.BULLET, (bullet) => {
+			play(SoundTag.IMPACT_INVINCIBLE, {
+				volume: 0.8,
+			});
+
+			const impact = add([
+				sprite(SpriteName.INVINCIBLE_IMPACT),
+				pos(bullet.pos.x, bullet.pos.y - bullet.height),
+				area(),
+				move(LEFT, this.ref.speed),
+			]);
+
+			impact.onAnimEnd(() => impact.destroy());
+
+			impact.play("impact");
+			bullet.destroy();
 		});
 	}
 }

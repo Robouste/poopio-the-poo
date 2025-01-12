@@ -48,15 +48,35 @@ export class AssetsLoader {
 		);
 		loadSprite(SpriteName.DRAGON, "sprites/dragon/dragon-spritesheet.png", {
 			sliceX: 4,
-			sliceY: 1,
+			sliceY: 2,
 			anims: {
 				fly: {
 					from: 0,
 					to: 3,
 					loop: true,
 				},
+				hurt: {
+					from: 4,
+					to: 5,
+					loop: false,
+				},
 			},
 		});
+		loadSprite(
+			SpriteName.ANCIENT_DRAGON,
+			"sprites/dragon/ancient-dragon-spritesheet.png",
+			{
+				sliceX: 4,
+				sliceY: 1,
+				anims: {
+					fly: {
+						from: 0,
+						to: 3,
+						loop: true,
+					},
+				},
+			}
+		);
 		loadSprite(
 			SpriteName.BULLET_IMPACT,
 			"sprites/bullet/bullet-impact-spritesheet.png",

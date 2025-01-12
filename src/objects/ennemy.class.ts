@@ -3,7 +3,6 @@ import { EnnemyComp } from "../types/ennemy.type";
 
 export abstract class Ennemy<T extends EnnemyComp> {
 	public ref: T;
-	protected abstract onCollide: () => void;
 	protected abstract spriteName: SpriteName;
 
 	public add(): void {
