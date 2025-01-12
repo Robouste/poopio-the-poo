@@ -8,7 +8,9 @@ import {
 	SpriteComp,
 } from "kaplay";
 
-export type Obsticle = GameObj<
+export type EnnemyComp = GameObj<SpriteComp | PosComp | AreaComp>;
+
+export type ObsticleComp = GameObj<
 	| SpriteComp
 	| PosComp
 	| AreaComp
@@ -20,7 +22,7 @@ export type Obsticle = GameObj<
 	  }
 >;
 
-export type Dragon = GameObj<
+export type DragonComp = GameObj<
 	| PosComp
 	| SpriteComp
 	| AreaComp

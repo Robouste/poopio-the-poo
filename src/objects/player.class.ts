@@ -1,4 +1,3 @@
-import { AreaComp, BodyComp, GameObj, PosComp, SpriteComp } from "kaplay";
 import {
 	getDesktopGameConfig,
 	getMobileGameConfig,
@@ -8,11 +7,12 @@ import { PlayerTag } from "../enums/player-tag.enum";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { DebugHelper } from "../helpers/debug.helper";
-import { Dragon, Obsticle } from "../types/ennemy.type";
+import { DragonComp, ObsticleComp } from "../types/ennemy.type";
 import { GameConfig } from "../types/game-config.type";
+import { PlayerComp } from "../types/player.type";
 
 export class Player {
-	public ref: GameObj<SpriteComp | PosComp | AreaComp | BodyComp>;
+	public ref: PlayerComp;
 	public jumps = 2;
 
 	private _config: GameConfig = DebugHelper.isMobile
@@ -102,7 +102,7 @@ export class Player {
 
 		bullet.play("move");
 
-		bullet.onCollide(GameSceneTag.OBSTICLE, (obsticle: Obsticle) => {
+		bullet.onCollide(GameSceneTag.OBSTICLE, (obsticle: ObsticleComp) => {
 			play(SoundTag.IMPACT_INVINCIBLE, {
 				volume: 0.8,
 			});
@@ -120,7 +120,7 @@ export class Player {
 			destroy(bullet);
 		});
 
-		bullet.onCollide(GameSceneTag.DRAGON, (dragon: Dragon) => {
+		bullet.onCollide(GameSceneTag.DRAGON, (dragon: DragonComp) => {
 			play(SoundTag.IMPACT, {
 				volume: 0.7,
 			});
