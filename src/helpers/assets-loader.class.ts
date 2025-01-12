@@ -67,12 +67,17 @@ export class AssetsLoader {
 			"sprites/dragon/ancient-dragon-spritesheet.png",
 			{
 				sliceX: 4,
-				sliceY: 1,
+				sliceY: 2,
 				anims: {
 					fly: {
 						from: 0,
 						to: 3,
 						loop: true,
+					},
+					hurt: {
+						from: 4,
+						to: 5,
+						loop: false,
 					},
 				},
 			}
@@ -88,6 +93,36 @@ export class AssetsLoader {
 						from: 0,
 						to: 13,
 						loop: false,
+					},
+				},
+			}
+		);
+		loadSprite(
+			SpriteName.FIRE_ORB,
+			"sprites/bullet/fire-orb-spritesheet.png",
+			{
+				sliceX: 8,
+				sliceY: 1,
+				anims: {
+					move: {
+						from: 0,
+						to: 7,
+						loop: true,
+					},
+				},
+			}
+		);
+		loadSprite(
+			SpriteName.SHOCKWAVE,
+			"sprites/bullet/shockwave-spritesheet.png",
+			{
+				sliceX: 5,
+				sliceY: 1,
+				anims: {
+					move: {
+						from: 0,
+						to: 4,
+						loop: true,
 					},
 				},
 			}
@@ -137,9 +172,20 @@ export class AssetsLoader {
 		loadSound(SoundTag.DOUBLE_JUMP, "sounds/double-jump.wav");
 		loadSound(SoundTag.GAME_OVER, "sounds/game-over.mp3");
 		loadSound(SoundTag.LEVEL_UP, "sounds/level-up.wav");
-		loadSound(Music.MAIN, "musics/bgm.mp3");
 		loadSound(SoundTag.FIRE, "sounds/fire.mp3");
 		loadSound(SoundTag.IMPACT_INVINCIBLE, "sounds/invincible.mp3");
 		loadSound(SoundTag.IMPACT, "sounds/impact.wav");
+		loadSound(SoundTag.IMPACT_BOSS, "sounds/impact-boss.wav");
+		loadSound(
+			SoundTag.FIRE_BALL_BOSS_LOOP,
+			"sounds/fire-ball-boss-loop.mp3"
+		);
+		loadSound(
+			SoundTag.SHOCKWAVE_BOSS_LOOP,
+			"sounds/shockwave-boss-loop.mp3"
+		);
+
+		loadSound(Music.MAIN, "musics/bgm.mp3");
+		loadSound(Music.BOSS, "musics/boss.mp3");
 	}
 }

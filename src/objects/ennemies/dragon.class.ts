@@ -3,19 +3,16 @@ import { GameSceneTag } from "../../enums/game-scene-tag.enum";
 import { PlayerTag } from "../../enums/player-tag.enum";
 import { SoundTag } from "../../enums/sound.enum";
 import { SpriteName } from "../../enums/sprite-name.enum";
+import { GameHelper } from "../../helpers/game.helper";
 import { DragonSpawnSettings } from "../../types/difficulty-config.type";
 import { DragonComp } from "../../types/ennemy.type";
-import { GameConfig } from "../../types/game-config.type";
 import { PlayerComp } from "../../types/player.type";
 import { Ennemy } from "../ennemy.class";
 
 export class Dragon extends Ennemy<DragonComp> {
 	protected spriteName = SpriteName.DRAGON;
 
-	constructor(
-		private _spawnSettings: DragonSpawnSettings,
-		private _gameConfig: GameConfig
-	) {
+	constructor(private _spawnSettings: DragonSpawnSettings) {
 		super();
 
 		const dragonHeight = 56;
@@ -48,6 +45,10 @@ export class Dragon extends Ennemy<DragonComp> {
 			}
 			const player = get(PlayerTag.PLAYER)[0] as PlayerComp;
 
+			if (!player) {
+				return;
+			}
+
 			const playerPos = player.pos;
 			const playerPosY = playerPos.y - player.height / 2;
 
@@ -66,32 +67,26 @@ export class Dragon extends Ennemy<DragonComp> {
 
 		this.ref.onCollide(PlayerTag.BULLET, (bullet) => {
 			play(SoundTag.IMPACT, {
-				volume: 0.7,
+				volume: 0.3,
 			});
 
 			this.ref.hurt(30);
 
 			const isDead = this.ref.hp() <= 0;
 
-			const impact = add([
-				sprite(SpriteName.BULLET_IMPACT),
-				pos(bullet.pos.x, bullet.pos.y - bullet.height),
-				area(),
-				move(LEFT, this.ref.speed),
-			]);
+			if (!isDead) {
+				GameHelper.addImpact(bullet, this.ref.speed);
+			}
 
 			if (isDead) {
 				this.ref.destroy();
 			}
 
-			this.ref.play("hurt", {
-				onEnd: () => this.ref.play("fly"),
-			});
-
-			impact.play("impact");
-
-			impact.onAnimEnd(() => impact.destroy());
+			this.ref.play("hurt");
+			wait(0.5, () => this.ref.play("fly"));
 			bullet.destroy();
 		});
+
+		this.ref.onDestroy(() => GameHelper.addImpact(this.ref, 0));
 	}
 }

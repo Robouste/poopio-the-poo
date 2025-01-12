@@ -18,10 +18,8 @@ export class Player {
 		? getMobileGameConfig()
 		: getDesktopGameConfig();
 
-	constructor() {}
-
-	public init(): void {
-		this.ref = add([
+	constructor() {
+		this.ref = make([
 			sprite(SpriteName.PLAYER),
 			pos(80, height() - this._config.platformHeight - 48),
 			area(),
@@ -30,6 +28,10 @@ export class Player {
 			PlayerTag.PLAYER,
 			z(99),
 		]);
+	}
+
+	public init(): void {
+		add(this.ref);
 
 		this.ref.play("idle");
 
@@ -88,7 +90,7 @@ export class Player {
 
 	private fire(): void {
 		play(SoundTag.FIRE, {
-			volume: 0.7,
+			volume: 0.5,
 		});
 
 		const bullet = add([

@@ -1,5 +1,5 @@
 import { GameObj } from "kaplay";
 
-export type DifficultyLevel = GameObj<{
+export type DifficultyLevelComp = GameObj<{
 	value: number;
 }>;

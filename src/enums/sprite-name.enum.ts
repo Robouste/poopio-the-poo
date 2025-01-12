@@ -8,6 +8,7 @@ export enum SpriteName {
 	CLOUD = "cloud_sprite",
 	CONTAINER = "container_sprite",
 	DRAGON = "dragon_sprite",
+	FIRE_ORB = "fire_orb_sprite",
 	FLOOR_GRASS_1 = "floor_grass_1_sprite",
 	FLOOR_GRASS_2 = "floor_grass_2_sprite",
 	FLOOR_GRASS_3 = "floor_grass_3_sprite",
@@ -25,4 +26,5 @@ export enum SpriteName {
 	OBSTICLE_1 = "obsticle_1_sprite",
 	OBSTICLE_2 = "obsticle_2_sprite",
 	PLAYER = "player_sprite",
+	SHOCKWAVE = "shockwave_sprite",
 }

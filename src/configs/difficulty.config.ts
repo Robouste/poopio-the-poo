@@ -5,6 +5,19 @@ import {
 } from "../types/difficulty-config.type";
 
 export const getDifficultyConfig = (level: number): DifficultyConfig => {
+	if (level === 6) {
+		return {
+			isBossLevel: true,
+			dragon: {
+				amount: 3,
+				health: 90,
+				minWait: 5,
+				maxWait: 5,
+				speed: 300,
+			},
+		};
+	}
+
 	const obsticleDifficulty: SpawnSettings = {
 		minWait: 1.2 - level * 0.07,
 		maxWait: 1.8 - level * 0.07,

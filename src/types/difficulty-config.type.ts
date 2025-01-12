@@ -1,13 +1,8 @@
-import { SpriteName } from "../enums/sprite-name.enum";
-
 export type DifficultyConfig = {
-	obsticle: SpawnSettings;
-	dragon: DragonSpawnSettings;
-	cloud: SpawnSettings;
-	boss?: {
-		sprite: SpriteName;
-		health: number;
-	};
+	obsticle?: SpawnSettings;
+	dragon?: DragonSpawnSettings;
+	cloud?: SpawnSettings;
+	isBossLevel?: boolean;
 };
 
 export type SpawnSettings = {

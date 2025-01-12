@@ -15,8 +15,8 @@ import {
 import { SceneName } from "../enums";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
-import { GameHelper } from "../game.helper";
 import { DebugHelper } from "../helpers/debug.helper";
+import { GameHelper } from "../helpers/game.helper";
 import { MainMenuConfig, MenuContainer } from "../types/main-menu-config.type";
 
 export class MainMenuScene {

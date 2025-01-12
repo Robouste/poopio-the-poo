@@ -7,7 +7,7 @@ import {
 import { GameSceneTag } from "../enums/game-scene-tag.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { DebugHelper } from "../helpers/debug.helper";
-import { DifficultyLevel } from "../types/difficulty-level.type";
+import { DifficultyLevelComp } from "../types/difficulty-level.type";
 import { GameConfig } from "../types/game-config.type";
 import { GroundComp } from "../types/ground.type";
 
@@ -36,8 +36,8 @@ export class Ground {
 		},
 	};
 
-	private get _level(): DifficultyLevel {
-		return get(GameSceneTag.LEVEL)[0] as DifficultyLevel;
+	private get _level(): DifficultyLevelComp {
+		return get(GameSceneTag.LEVEL)[0] as DifficultyLevelComp;
 	}
 
 	constructor(private _type: GroundType) {}

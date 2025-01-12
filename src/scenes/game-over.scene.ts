@@ -3,7 +3,7 @@ import { Config } from "../configs/global.config";
 import { SceneName } from "../enums";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
-import { GameHelper } from "../game.helper";
+import { GameHelper } from "../helpers/game.helper";
 
 export class GameOverScene {
 	private _scoreText: GameObj<TextComp | PosComp | AnchorComp>;

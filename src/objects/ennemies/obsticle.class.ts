@@ -1,3 +1,4 @@
+import { GameObj } from "kaplay";
 import { OBSTICLE_GROUND_OFFSET, OBSTICLE_HEIGHT } from "../../constants";
 import { GameSceneTag } from "../../enums/game-scene-tag.enum";
 import { PlayerTag } from "../../enums/player-tag.enum";
@@ -5,21 +6,23 @@ import { SoundTag } from "../../enums/sound.enum";
 import { SpriteName } from "../../enums/sprite-name.enum";
 import { SpawnSettings } from "../../types/difficulty-config.type";
 import { ObsticleComp } from "../../types/ennemy.type";
-import { GameConfig } from "../../types/game-config.type";
 import { Ennemy } from "../ennemy.class";
 
 export class Obsticle extends Ennemy<ObsticleComp> {
+	public static isObsticle(obj: GameObj): obj is ObsticleComp {
+		return obj.has(GameSceneTag.OBSTICLE);
+	}
+
 	constructor(
 		protected spriteName: SpriteName,
-		private _spawnSettings: SpawnSettings,
-		private _config: GameConfig
+		private _spawnSettings: SpawnSettings
 	) {
 		super();
 
 		const spriteWidth = this.spriteName === SpriteName.OBSTICLE_1 ? 48 : 32;
 
 		const basePosY =
-			height() - this._config.platformHeight - OBSTICLE_GROUND_OFFSET;
+			height() - this._gameConfig.platformHeight - OBSTICLE_GROUND_OFFSET;
 
 		this.ref = make([
 			sprite(this.spriteName, {
@@ -51,7 +54,7 @@ export class Obsticle extends Ennemy<ObsticleComp> {
 				vec2(this.ref.pos.x, this.ref.pos.y - 2),
 				vec2(
 					this.ref.pos.x,
-					height() - this._config.platformHeight - 4
+					height() - this._gameConfig.platformHeight - 4
 				),
 				t
 			);

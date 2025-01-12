@@ -18,13 +18,13 @@ import { Music } from "../enums/music.enum";
 import { SoundTag } from "../enums/sound.enum";
 import { SpriteName } from "../enums/sprite-name.enum";
 import { DebugHelper } from "../helpers/debug.helper";
+import { AncientDragon } from "../objects/ennemies/ancient-dragon.class";
 import { Dragon } from "../objects/ennemies/dragon.class";
 import { Obsticle } from "../objects/ennemies/obsticle.class";
 import { Ground } from "../objects/gound.object";
 import { Player } from "../objects/player.class";
-import { DifficultyLevel } from "../types/difficulty-level.type";
-import { ObsticleComp } from "../types/ennemy.type";
-import { GameConfig } from "../types/game-config.type";
+import { DifficultyLevelComp } from "../types/difficulty-level.type";
+import { GameConfigComp } from "../types/game-config.type";
 
 type Cloud = GameObj<PosComp | SpriteComp | EmptyComp>;
 
@@ -37,17 +37,20 @@ export class GameScene {
 		this._score = value;
 	}
 
-	private _config: GameConfig = DebugHelper.isMobile
-		? getMobileGameConfig()
-		: getDesktopGameConfig();
+	private _config: GameConfigComp = add([
+		DebugHelper.isMobile ? getMobileGameConfig() : getDesktopGameConfig(),
+		GameSceneTag.GAME_CONFIG,
+	]);
 
 	private _background: GameObj<ColorComp | SpriteComp>;
 	private _bgm: AudioPlay;
+	private _bgmLevel = DebugHelper.isDevMode ? 1 : 1;
+	private _bossMusic: AudioPlay | null = null;
 	private _player: Player = new Player();
-	private _level: DifficultyLevel = add([
+	private _level: DifficultyLevelComp = add([
 		GameSceneTag.LEVEL,
 		{
-			value: 1,
+			value: 6,
 		},
 	]);
 	private _levelLabel: GameObj<PosComp | TextComp>;
@@ -55,41 +58,41 @@ export class GameScene {
 		return 300 + this._level.value * 100;
 	}
 
+	private get _bgColor(): ColorComp {
+		return color(color(255, 255, 255).color.darken(40 * this._level.value));
+	}
+
 	constructor() {
-		this.addBackground();
+		this._background = add([
+			sprite(SpriteName.BACKGROUND, {
+				height: height(),
+				width: width(),
+			}),
+			this._bgColor,
+		]);
 
 		this._levelLabel = add([
 			text(`Level: ${this._level.value}`),
 			pos(24, 60),
 			z(100),
 		]);
+
 		setGravity(1800);
 
 		this._player.init();
 
-		const bgmVolume = DebugHelper.isDevMode ? 0 : 0.2;
-
 		this._bgm = play(Music.MAIN, {
-			volume: bgmVolume,
+			volume: this._bgmLevel,
 		});
 
 		this.addPlatform();
 		this.spawnObsticle();
 		wait(2, () => this.spawnDragon());
+		this.spawnBoss();
 		this.spawnClouds();
 		this.addScore();
 
 		this._player.ref.onDestroy(() => this.gameOver());
-	}
-
-	private addBackground(): void {
-		this._background = add([
-			sprite(SpriteName.BACKGROUND, {
-				height: height(),
-				width: width(),
-			}),
-			color(255, 255, 255),
-		]);
 	}
 
 	private addPlatform(): void {
@@ -110,18 +113,19 @@ export class GameScene {
 	}
 
 	private spawnObsticle(): void {
-		const spriteName =
-			rand(0, 1) > 0.5 ? SpriteName.OBSTICLE_1 : SpriteName.OBSTICLE_2;
-
 		const obsticleDifficulty = getDifficultyConfig(
 			this._level.value
 		).obsticle;
 
-		const obsticle = new Obsticle(
-			spriteName,
-			obsticleDifficulty,
-			this._config
-		);
+		if (!obsticleDifficulty) {
+			wait(1, () => this.spawnObsticle());
+			return;
+		}
+
+		const spriteName =
+			rand(0, 1) > 0.5 ? SpriteName.OBSTICLE_1 : SpriteName.OBSTICLE_2;
+
+		const obsticle = new Obsticle(spriteName, obsticleDifficulty);
 
 		obsticle.add();
 
@@ -136,10 +140,15 @@ export class GameScene {
 	private spawnDragon(): void {
 		const dragonDifficulty = getDifficultyConfig(this._level.value).dragon;
 
+		if (!dragonDifficulty) {
+			wait(1, () => this.spawnDragon());
+			return;
+		}
+
 		loop(
 			0.3,
 			() => {
-				const dragon = new Dragon(dragonDifficulty, this._config);
+				const dragon = new Dragon(dragonDifficulty);
 				dragon.add();
 			},
 			dragonDifficulty.amount
@@ -148,6 +157,40 @@ export class GameScene {
 		wait(rand(dragonDifficulty.minWait, dragonDifficulty.maxWait), () =>
 			this.spawnDragon()
 		);
+	}
+
+	private spawnBoss(): void {
+		const shouldSpawn = getDifficultyConfig(this._level.value).isBossLevel;
+
+		if (!shouldSpawn) {
+			wait(1, () => this.spawnBoss());
+			return;
+		}
+
+		loop(
+			0.1,
+			() => {
+				this._bgm.volume -= 0.1;
+			},
+			10
+		);
+
+		wait(1, () => {
+			this._bgm.stop();
+			this._bossMusic = play(Music.BOSS);
+			const boss = new AncientDragon();
+
+			boss.add();
+
+			boss.ref.onDestroy(() => {
+				this._bossMusic?.stop();
+				this._bgm.play();
+				this._bgm.volume = this._bgmLevel;
+				this._score += 2000;
+				get(GameSceneTag.DRAGON).forEach((dragon) => dragon.destroy());
+				this.incrementDifficultyLevel();
+			});
+		});
 	}
 
 	private spawnClouds(): void {
@@ -167,6 +210,12 @@ export class GameScene {
 		const scoreLabel = add([text(this.score), pos(24, 24), z(100)]);
 
 		loop(0.01, () => {
+			const currentDifficulty = getDifficultyConfig(this._level.value);
+
+			if (currentDifficulty.isBossLevel) {
+				return;
+			}
+
 			this._score++;
 			scoreLabel.text = `Score: ${this.score}`;
 
@@ -181,15 +230,23 @@ export class GameScene {
 		this._level.value++;
 		this._levelLabel.text = `Level: ${this._level.value}`;
 		this.animateLevelUpText();
+		this._background.use(this._bgColor);
 
-		const newBackgroundColor = this._background.color.darken(40);
-		this._background.use(color(newBackgroundColor));
+		get(GameSceneTag.OBSTICLE).forEach((obsticle) => {
+			if (!Obsticle.isObsticle(obsticle)) {
+				return;
+			}
 
-		get(GameSceneTag.OBSTICLE).forEach((obsticle: ObsticleComp) => {
 			obsticle.use(move(LEFT, this._difficultySpeed));
 		});
 
-		get(GameSceneTag.CLOUD).forEach((cloud: Cloud) => {
+		get(GameSceneTag.CLOUD).forEach((cloud) => {
+			const isCloud = (obj: GameObj): obj is Cloud =>
+				obj.has(GameSceneTag.CLOUD);
+
+			if (!isCloud(cloud)) {
+				return;
+			}
 			cloud.use(move(LEFT, 50 * this._level.value));
 		});
 	}
