@@ -1,10 +1,8 @@
 import kaplay, { AudioPlay } from "kaplay";
 import "kaplay/global"; // uncomment if you want to use without the k. prefix
 import { SceneName } from "./enums";
-import { AssetsLoader } from "./helpers/assets-loader.class";
-import { GameOverScene } from "./scenes/game-over.scene";
-import { GameScene } from "./scenes/game.scene";
-import { MainMenuScene } from "./scenes/main-menu.scene";
+import { AssetsLoader } from "./helpers";
+import { GameOverScene, GameScene, MainMenuScene } from "./scenes";
 
 kaplay();
 

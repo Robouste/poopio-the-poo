@@ -15,7 +15,7 @@ export class DebugHelper {
 				)
 			)
 				check = true;
-		})(navigator.userAgent || navigator.vendor || window["opera"]);
+		})(navigator.userAgent || navigator.vendor);
 		return check;
 	}
 }

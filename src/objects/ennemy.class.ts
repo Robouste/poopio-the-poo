@@ -1,7 +1,5 @@
-import { GameSceneTag } from "../enums/game-scene-tag.enum";
-import { SpriteName } from "../enums/sprite-name.enum";
-import { EnnemyComp } from "../types/ennemy.type";
-import { GameConfigComp } from "../types/game-config.type";
+import { GameSceneTag, SpriteName } from "../enums";
+import { EnnemyComp, GameConfigComp } from "../types";
 
 export abstract class Ennemy<T extends EnnemyComp> {
 	public ref!: T;

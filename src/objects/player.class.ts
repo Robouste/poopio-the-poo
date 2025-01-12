@@ -1,14 +1,7 @@
-import {
-	getDesktopGameConfig,
-	getMobileGameConfig,
-} from "../configs/game.config";
-import { GameSceneTag } from "../enums/game-scene-tag.enum";
-import { PlayerTag } from "../enums/player-tag.enum";
-import { SoundTag } from "../enums/sound.enum";
-import { SpriteName } from "../enums/sprite-name.enum";
-import { DebugHelper } from "../helpers/debug.helper";
-import { GameConfig } from "../types/game-config.type";
-import { PlayerComp } from "../types/player.type";
+import { getDesktopGameConfig, getMobileGameConfig } from "../configs";
+import { GameSceneTag, PlayerTag, SoundTag, SpriteName } from "../enums";
+import { DebugHelper } from "../helpers";
+import { GameConfig, PlayerComp } from "../types";
 
 export class Player {
 	public ref: PlayerComp;

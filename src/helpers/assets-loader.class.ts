@@ -1,6 +1,4 @@
-import { Music } from "../enums/music.enum";
-import { SoundTag } from "../enums/sound.enum";
-import { SpriteName } from "../enums/sprite-name.enum";
+import { Music, SoundTag, SpriteName } from "../enums";
 
 export class AssetsLoader {
 	public static loadSprites(): void {

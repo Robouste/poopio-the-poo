@@ -1,12 +1,7 @@
 import { OBSTICLE_GROUND_OFFSET, OBSTICLE_HEIGHT } from "../../constants";
-import { GameSceneTag } from "../../enums/game-scene-tag.enum";
-import { PlayerTag } from "../../enums/player-tag.enum";
-import { SoundTag } from "../../enums/sound.enum";
-import { SpriteName } from "../../enums/sprite-name.enum";
-import { GameHelper } from "../../helpers/game.helper";
-import { DragonSpawnSettings } from "../../types/difficulty-config.type";
-import { DragonComp } from "../../types/ennemy.type";
-import { PlayerComp } from "../../types/player.type";
+import { GameSceneTag, PlayerTag, SoundTag, SpriteName } from "../../enums";
+import { GameHelper } from "../../helpers";
+import { DragonComp, DragonSpawnSettings, PlayerComp } from "../../types";
 import { Ennemy } from "../ennemy.class";
 
 export class Dragon extends Ennemy<DragonComp> {

@@ -3,13 +3,10 @@ import {
 	getGrassSprite,
 	getMobileGameConfig,
 	getRockSprite,
-} from "../configs/game.config";
-import { GameSceneTag } from "../enums/game-scene-tag.enum";
-import { SpriteName } from "../enums/sprite-name.enum";
-import { DebugHelper } from "../helpers/debug.helper";
-import { DifficultyLevelComp } from "../types/difficulty-level.type";
-import { GameConfig } from "../types/game-config.type";
-import { GroundComp } from "../types/ground.type";
+} from "../configs";
+import { GameSceneTag, SpriteName } from "../enums";
+import { DebugHelper } from "../helpers";
+import { DifficultyLevelComp, GameConfig, GroundComp } from "../types";
 
 type GroundType = "grass" | "rock";
 type GroundSetting = {

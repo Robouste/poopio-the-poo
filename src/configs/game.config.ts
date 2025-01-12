@@ -1,5 +1,5 @@
-import { SpriteName } from "../enums/sprite-name.enum";
-import { GameConfig } from "../types/game-config.type";
+import { SpriteName } from "../enums";
+import { GameConfig } from "../types";
 
 export const getDesktopGameConfig = (): GameConfig => ({
 	platformHeight: 128,

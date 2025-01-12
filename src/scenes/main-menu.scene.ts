@@ -7,17 +7,14 @@ import {
 	SpriteComp,
 	TextComp,
 } from "kaplay";
-import { Config } from "../configs/global.config";
 import {
+	Config,
 	getDesktopMainMenuConfig,
 	getMobileMainMenuConfig,
-} from "../configs/main-menu.config";
-import { SceneName } from "../enums";
-import { SoundTag } from "../enums/sound.enum";
-import { SpriteName } from "../enums/sprite-name.enum";
-import { DebugHelper } from "../helpers/debug.helper";
-import { GameHelper } from "../helpers/game.helper";
-import { MainMenuConfig, MenuContainer } from "../types/main-menu-config.type";
+} from "../configs";
+import { SceneName, SoundTag, SpriteName } from "../enums";
+import { DebugHelper, GameHelper } from "../helpers";
+import { MainMenuConfig, MenuContainer } from "../types";
 
 export class MainMenuScene {
 	private _config: MainMenuConfig = DebugHelper.isMobile
@@ -29,6 +26,12 @@ export class MainMenuScene {
 	}
 
 	constructor() {
+		onKeyPress(["d"], () => {
+			if (isKeyDown("shift")) {
+				debug.inspect = !debug.inspect;
+			}
+		});
+
 		GameHelper.addBackground(Config.backgroundColor);
 
 		const isDevMode = DebugHelper.isDevMode;

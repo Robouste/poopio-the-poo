@@ -1,9 +1,7 @@
 import { AnchorComp, AudioPlay, GameObj, PosComp, TextComp } from "kaplay";
-import { Config } from "../configs/global.config";
-import { SceneName } from "../enums";
-import { SoundTag } from "../enums/sound.enum";
-import { SpriteName } from "../enums/sprite-name.enum";
-import { GameHelper } from "../helpers/game.helper";
+import { Config } from "../configs";
+import { SceneName, SoundTag, SpriteName } from "../enums";
+import { GameHelper } from "../helpers";
 
 export class GameOverScene {
 	private _scoreText: GameObj<TextComp | PosComp | AnchorComp>;

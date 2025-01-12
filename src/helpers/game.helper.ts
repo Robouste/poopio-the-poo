@@ -8,8 +8,8 @@ import {
 	RectComp,
 	SpriteComp,
 } from "kaplay";
-import { Config } from "../configs/global.config";
-import { SpriteName } from "../enums/sprite-name.enum";
+import { Config } from "../configs";
+import { SpriteName } from "../enums";
 
 export class GameHelper {
 	public static addBackground(

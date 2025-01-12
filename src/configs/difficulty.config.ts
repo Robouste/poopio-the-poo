@@ -1,8 +1,4 @@
-import {
-	DifficultyConfig,
-	DragonSpawnSettings,
-	SpawnSettings,
-} from "../types/difficulty-config.type";
+import { DifficultyConfig, DragonSpawnSettings, SpawnSettings } from "../types";
 
 export const getDifficultyConfig = (
 	level: number,
@@ -12,7 +8,7 @@ export const getDifficultyConfig = (
 		return {
 			isBossLevel: true,
 			dragon: {
-				amount: 3,
+				amount: 2,
 				health: 90,
 				minWait: 5,
 				maxWait: 5,

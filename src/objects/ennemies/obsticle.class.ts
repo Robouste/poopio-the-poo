@@ -1,13 +1,8 @@
 import { GameObj } from "kaplay";
 import { OBSTICLE_GROUND_OFFSET, OBSTICLE_HEIGHT } from "../../constants";
-import { GameSceneTag } from "../../enums/game-scene-tag.enum";
-import { PlayerTag } from "../../enums/player-tag.enum";
-import { SoundTag } from "../../enums/sound.enum";
-import { SpriteName } from "../../enums/sprite-name.enum";
-import { SpawnSettings } from "../../types/difficulty-config.type";
-import { ObsticleComp } from "../../types/ennemy.type";
+import { GameSceneTag, PlayerTag, SoundTag, SpriteName } from "../../enums";
+import { ObsticleComp, SpawnSettings } from "../../types";
 import { Ennemy } from "../ennemy.class";
-
 export class Obsticle extends Ennemy<ObsticleComp> {
 	public static isObsticle(obj: GameObj): obj is ObsticleComp {
 		return obj.has(GameSceneTag.OBSTICLE);

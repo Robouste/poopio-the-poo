@@ -1,4 +1,4 @@
-import { MainMenuConfig } from "../types/main-menu-config.type";
+import { MainMenuConfig } from "../types";
 
 export const getDesktopMainMenuConfig = (): MainMenuConfig => ({
 	jumpControl: "Space or left mouse",

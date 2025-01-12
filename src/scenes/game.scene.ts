@@ -7,24 +7,15 @@ import {
 	SpriteComp,
 	TextComp,
 } from "kaplay";
-import { getDifficultyConfig } from "../configs/difficulty.config";
 import {
 	getDesktopGameConfig,
+	getDifficultyConfig,
 	getMobileGameConfig,
-} from "../configs/game.config";
-import { SceneName } from "../enums";
-import { GameSceneTag } from "../enums/game-scene-tag.enum";
-import { Music } from "../enums/music.enum";
-import { SoundTag } from "../enums/sound.enum";
-import { SpriteName } from "../enums/sprite-name.enum";
-import { DebugHelper } from "../helpers/debug.helper";
-import { AncientDragon } from "../objects/ennemies/ancient-dragon.class";
-import { Dragon } from "../objects/ennemies/dragon.class";
-import { Obsticle } from "../objects/ennemies/obsticle.class";
-import { Ground } from "../objects/gound.object";
-import { Player } from "../objects/player.class";
-import { DifficultyLevelComp } from "../types/difficulty-level.type";
-import { GameConfigComp } from "../types/game-config.type";
+} from "../configs";
+import { GameSceneTag, Music, SceneName, SoundTag, SpriteName } from "../enums";
+import { DebugHelper } from "../helpers";
+import { AncientDragon, Dragon, Ground, Obsticle, Player } from "../objects";
+import { DifficultyLevelComp, GameConfigComp } from "../types";
 
 type Cloud = GameObj<PosComp | SpriteComp | EmptyComp>;
 

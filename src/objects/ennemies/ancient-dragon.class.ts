@@ -1,9 +1,6 @@
-import { GameSceneTag } from "../../enums/game-scene-tag.enum";
-import { PlayerTag } from "../../enums/player-tag.enum";
-import { SoundTag } from "../../enums/sound.enum";
-import { SpriteName } from "../../enums/sprite-name.enum";
-import { GameHelper } from "../../helpers/game.helper";
-import { DragonComp } from "../../types/ennemy.type";
+import { GameSceneTag, PlayerTag, SoundTag, SpriteName } from "../../enums";
+import { GameHelper } from "../../helpers";
+import { DragonComp } from "../../types";
 import { Ennemy } from "../ennemy.class";
 
 export class AncientDragon extends Ennemy<DragonComp> {
