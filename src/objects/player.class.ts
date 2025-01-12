@@ -62,7 +62,7 @@ export class Player {
 			}
 		});
 
-		this.ref.onCollide("ground", () => {
+		this.ref.onCollide(GameSceneTag.GROUND, () => {
 			this.jumps = 2;
 			this.ref.play("idle");
 		});
@@ -72,6 +72,7 @@ export class Player {
 		if (this.ref.isGrounded() || this.jumps > 0) {
 			this.ref.play("jump");
 			this.ref.jump(700);
+
 			if (this.jumps === 2) {
 				play(SoundTag.JUMP, {
 					volume: 0.7,
@@ -81,6 +82,7 @@ export class Player {
 					volume: 0.7,
 				});
 			}
+
 			this.jumps--;
 		}
 	}

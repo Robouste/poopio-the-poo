@@ -78,9 +78,37 @@ export class AssetsLoader {
 		loadSprite(SpriteName.CONTAINER, "sprites/container.png");
 		loadSprite(SpriteName.BUTTON_PRIMARY, "sprites/button-primary.png");
 		loadSprite(SpriteName.BUTTON, "sprites/button.png");
-		loadSprite(SpriteName.FLOOR_ROCK, "sprites/floor-rock.png");
-		loadSprite(SpriteName.FLOOR_GRASS, "sprites/floor-grass.png");
 		loadSprite(SpriteName.BACKGROUND, "sprites/background.png");
+		loadSprite(SpriteName.FLOOR_ROCK_1, "sprites/floors/floor-rock-1.png");
+		loadSprite(
+			SpriteName.FLOOR_GRASS_1,
+			"sprites/floors/floor-grass-1.png"
+		);
+		loadSprite(SpriteName.FLOOR_ROCK_2, "sprites/floors/floor-rock-2.png");
+		loadSprite(
+			SpriteName.FLOOR_GRASS_2,
+			"sprites/floors/floor-grass-2.png"
+		);
+		loadSprite(SpriteName.FLOOR_ROCK_3, "sprites/floors/floor-rock-3.png");
+		loadSprite(
+			SpriteName.FLOOR_GRASS_3,
+			"sprites/floors/floor-grass-3.png"
+		);
+		loadSprite(SpriteName.FLOOR_ROCK_4, "sprites/floors/floor-rock-4.png");
+		loadSprite(
+			SpriteName.FLOOR_GRASS_4,
+			"sprites/floors/floor-grass-4.png"
+		);
+		loadSprite(SpriteName.FLOOR_ROCK_5, "sprites/floors/floor-rock-5.png");
+		loadSprite(
+			SpriteName.FLOOR_GRASS_5,
+			"sprites/floors/floor-grass-5.png"
+		);
+		loadSprite(SpriteName.FLOOR_ROCK_6, "sprites/floors/floor-rock-6.png");
+		loadSprite(
+			SpriteName.FLOOR_GRASS_6,
+			"sprites/floors/floor-grass-6.png"
+		);
 	}
 
 	public static loadSounds(): void {

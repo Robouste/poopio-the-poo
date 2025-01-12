@@ -10,7 +10,9 @@ import {
 import { getDifficultyConfig } from "../configs/difficulty.config";
 import {
 	getDesktopGameConfig,
+	getGrassSprite,
 	getMobileGameConfig,
+	getRockSprite,
 } from "../configs/game.config";
 import { OBSTICLE_GROUND_OFFSET, OBSTICLE_HEIGHT } from "../constants";
 import { SceneName } from "../enums";
@@ -87,28 +89,30 @@ export class GameScene {
 
 	private addPlatform(): void {
 		add([
-			sprite(SpriteName.FLOOR_ROCK, {
-				tiled: true,
-				width: width(),
-				height: this._config.platformHeight,
-			}),
-			pos(0, height() - this._config.platformHeight),
+			rect(width(), this._config.platformHeight),
 			area(),
 			body({ isStatic: true }),
-			"ground",
+			pos(0, height() - this._config.platformHeight),
+			opacity(0),
+			GameSceneTag.GROUND,
 		]);
 
-		add([
-			sprite(SpriteName.FLOOR_GRASS, {
-				tiled: true,
-				width: width(),
+		add(
+			this.makeGround({
+				height: this._config.platformHeight,
+				posX: 0,
+				type: "rock",
+				zIndex: 0,
+			})
+		);
+		add(
+			this.makeGround({
 				height: 32,
-			}),
-			pos(0, height() - this._config.platformHeight),
-			area(),
-			body({ isStatic: true }),
-			"ground",
-		]);
+				posX: 0,
+				type: "grass",
+				zIndex: 1,
+			})
+		);
 	}
 
 	private spawnObsticle(): void {
@@ -271,6 +275,56 @@ export class GameScene {
 		});
 
 		return dragon;
+	}
+
+	private makeGround(params: {
+		height: number;
+		posX: number;
+		type: "grass" | "rock";
+		zIndex: number;
+	}): GameObj<PosComp | SpriteComp | EmptyComp> {
+		const spriteName =
+			params.type === "grass"
+				? getGrassSprite(this._difficulty)
+				: getRockSprite(this._difficulty);
+
+		const ground = make([
+			sprite(spriteName, {
+				tiled: true,
+				width: width(),
+				height: params.height,
+			}),
+			pos(params.posX, height() - this._config.platformHeight),
+			move(LEFT, 250),
+			z(params.zIndex),
+			{
+				nextAdded: false,
+			},
+		]);
+
+		ground.onUpdate(() => {
+			const rightEdgePosX = ground.pos.x + ground.width;
+
+			if (ground.pos.x <= 0 && !ground.nextAdded) {
+				add(
+					this.makeGround({
+						height: params.height,
+						posX: width() - 50,
+						type: params.type,
+						zIndex: params.zIndex,
+					})
+				);
+
+				ground.nextAdded = true;
+			}
+
+			if (rightEdgePosX <= 0) {
+				ground.destroy();
+				return;
+			}
+		});
+
+		return ground;
 	}
 
 	private incrementDifficultyLevel(): void {

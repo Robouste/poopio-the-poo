@@ -1,6 +1,6 @@
 import {
 	DifficultyConfig,
-	DragonDifficulty,
+	DragonSpawnSettings,
 	SpawnSettings,
 } from "../types/difficulty-config.type";
 
@@ -14,7 +14,7 @@ export const getDifficultyConfig = (level: number): DifficultyConfig => {
 	// increase health by 30 every 5 levels
 	const dragonHealth = 60 + Math.floor(level / 5) * 30;
 
-	const dragonDifficulty: DragonDifficulty = {
+	const dragonDifficulty: DragonSpawnSettings = {
 		minWait: 5 - level * 0.3,
 		maxWait: 10 - level * 0.3,
 		speed: 100 + level * 100,
