@@ -114,7 +114,8 @@ export class GameScene {
 
 	private spawnObsticle(): void {
 		const obsticleDifficulty = getDifficultyConfig(
-			this._level.value
+			this._level.value,
+			this._config.speedMultiplier
 		).obsticle;
 
 		if (!obsticleDifficulty) {
@@ -138,7 +139,10 @@ export class GameScene {
 	}
 
 	private spawnDragon(): void {
-		const dragonDifficulty = getDifficultyConfig(this._level.value).dragon;
+		const dragonDifficulty = getDifficultyConfig(
+			this._level.value,
+			this._config.speedMultiplier
+		).dragon;
 
 		if (!dragonDifficulty) {
 			wait(1, () => this.spawnDragon());
@@ -160,7 +164,10 @@ export class GameScene {
 	}
 
 	private spawnBoss(): void {
-		const shouldSpawn = getDifficultyConfig(this._level.value).isBossLevel;
+		const shouldSpawn = getDifficultyConfig(
+			this._level.value,
+			this._config.speedMultiplier
+		).isBossLevel;
 
 		if (!shouldSpawn) {
 			wait(1, () => this.spawnBoss());
@@ -210,7 +217,10 @@ export class GameScene {
 		const scoreLabel = add([text(this.score), pos(24, 24), z(100)]);
 
 		loop(0.01, () => {
-			const currentDifficulty = getDifficultyConfig(this._level.value);
+			const currentDifficulty = getDifficultyConfig(
+				this._level.value,
+				this._config.speedMultiplier
+			);
 
 			if (currentDifficulty.isBossLevel) {
 				return;

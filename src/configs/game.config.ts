@@ -3,10 +3,12 @@ import { GameConfig } from "../types/game-config.type";
 
 export const getDesktopGameConfig = (): GameConfig => ({
 	platformHeight: 128,
+	speedMultiplier: 1,
 });
 
 export const getMobileGameConfig = (): GameConfig => ({
 	platformHeight: height() / 3,
+	speedMultiplier: 0.7,
 });
 
 export const getGrassSprite = (level: number): SpriteName => {

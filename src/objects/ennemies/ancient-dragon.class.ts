@@ -73,7 +73,7 @@ export class AncientDragon extends Ennemy<DragonComp> {
 			}),
 			area(),
 			pos(width(), height() - this._gameConfig.platformHeight),
-			move(LEFT, 800),
+			move(LEFT, 800 * this._gameConfig.speedMultiplier),
 			anchor("botleft"),
 		]);
 
@@ -127,7 +127,11 @@ export class AncientDragon extends Ennemy<DragonComp> {
 		});
 
 		fireball.onUpdate(() => {
-			fireball.moveTo(-500, playerPositionY, 800);
+			fireball.moveTo(
+				-500,
+				playerPositionY,
+				800 * this._gameConfig.speedMultiplier
+			);
 
 			if (fireball.pos.x + fireball.width < 0) {
 				fireball.destroy();
