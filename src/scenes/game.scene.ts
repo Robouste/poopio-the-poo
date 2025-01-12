@@ -189,7 +189,7 @@ export class GameScene {
 
 			boss.add();
 
-			boss.ref.onDestroy(() => {
+			boss.ref.onDeath(() => {
 				this._bossMusic?.stop();
 				this._bgm.play();
 				this._bgm.volume = this._bgmLevel;
@@ -283,6 +283,7 @@ export class GameScene {
 
 	private gameOver(): void {
 		this._bgm.stop();
+		this._bossMusic?.stop();
 
 		go(SceneName.GAME_OVER, {
 			score: this.score,
