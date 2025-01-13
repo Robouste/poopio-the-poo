@@ -78,8 +78,6 @@ export class GameOverScene {
 			setCursor("default");
 			restartButton.use(opacity(1));
 		});
-
-		restartButton.onClick(() => this.restart());
 	}
 
 	private restart(): void {
