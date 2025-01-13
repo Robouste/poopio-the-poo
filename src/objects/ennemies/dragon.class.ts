@@ -77,8 +77,10 @@ export class Dragon extends Ennemy<DragonComp> {
 				this.ref.destroy();
 			}
 
-			this.ref.play("hurt");
-			wait(0.5, () => this.ref.play("fly"));
+			this.ref.play("hurt", {
+				onEnd: () => wait(0, () => this.ref.play("fly")),
+			});
+
 			bullet.destroy();
 		});
 

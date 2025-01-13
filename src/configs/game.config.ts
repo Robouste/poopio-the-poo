@@ -17,7 +17,7 @@ export const getGrassSprite = (level: number): SpriteName => {
 		2: SpriteName.FLOOR_GRASS_2,
 		3: SpriteName.FLOOR_GRASS_3,
 		4: SpriteName.FLOOR_GRASS_4,
-		5: SpriteName.FLOOR_GRASS_5,
+		5: SpriteName.FLOOR_GRASS_6,
 	};
 
 	if (level > 5) {
@@ -33,7 +33,7 @@ export const getRockSprite = (level: number): SpriteName => {
 		2: SpriteName.FLOOR_ROCK_2,
 		3: SpriteName.FLOOR_ROCK_3,
 		4: SpriteName.FLOOR_ROCK_4,
-		5: SpriteName.FLOOR_ROCK_5,
+		5: SpriteName.FLOOR_ROCK_6,
 	};
 
 	if (level > 5) {

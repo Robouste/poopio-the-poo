@@ -41,7 +41,7 @@ export class GameScene {
 	private _level: DifficultyLevelComp = add([
 		GameSceneTag.LEVEL,
 		{
-			value: 6,
+			value: 1,
 		},
 	]);
 	private _levelLabel: GameObj<PosComp | TextComp>;

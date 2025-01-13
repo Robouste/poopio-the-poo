@@ -4,7 +4,7 @@ export const getDifficultyConfig = (
 	level: number,
 	speedMultiplier: number
 ): DifficultyConfig => {
-	if (level === 6) {
+	if (level === 5) {
 		return {
 			isBossLevel: true,
 			dragon: {
