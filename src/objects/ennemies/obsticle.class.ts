@@ -29,6 +29,7 @@ export class Obsticle extends Ennemy<ObsticleComp> {
 			anchor("botleft"),
 			move(LEFT, this._spawnSettings.speed),
 			GameSceneTag.OBSTICLE,
+			GameSceneTag.TO_DESTROY,
 			{
 				time: 0,
 				speed: this._spawnSettings.speed,
@@ -70,6 +71,7 @@ export class Obsticle extends Ennemy<ObsticleComp> {
 				pos(bullet.pos.x, bullet.pos.y - bullet.height),
 				area(),
 				move(LEFT, this.ref.speed),
+				GameSceneTag.TO_DESTROY,
 			]);
 
 			impact.onAnimEnd(() => impact.destroy());

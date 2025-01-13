@@ -23,6 +23,7 @@ export class AncientDragon extends Ennemy<DragonComp> {
 			health(900),
 			z(98),
 			GameSceneTag.ANCIENT_DRAGON,
+			GameSceneTag.TO_DESTROY,
 			{
 				speed: 50,
 			},
@@ -75,6 +76,7 @@ export class AncientDragon extends Ennemy<DragonComp> {
 			pos(width(), height() - this._gameConfig.platformHeight),
 			move(LEFT, 800 * this._gameConfig.speedMultiplier),
 			anchor("botleft"),
+			GameSceneTag.TO_DESTROY,
 		]);
 
 		const sound = play(SoundTag.SHOCKWAVE_BOSS_LOOP, {
@@ -120,6 +122,7 @@ export class AncientDragon extends Ennemy<DragonComp> {
 			}),
 			pos(this.ref.pos.x, this.ref.pos.y),
 			anchor("center"),
+			GameSceneTag.TO_DESTROY,
 		]);
 
 		fireball.play("move");

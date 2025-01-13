@@ -28,6 +28,7 @@ export class Dragon extends Ennemy<DragonComp> {
 			health(this._spawnSettings.health),
 			z(98),
 			GameSceneTag.DRAGON,
+			GameSceneTag.TO_DESTROY,
 			{
 				speed: this._spawnSettings.speed,
 			},

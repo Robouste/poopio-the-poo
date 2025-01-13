@@ -6,4 +6,5 @@ export enum GameSceneTag {
 	GROUND = "ground_scene_tag",
 	LEVEL = "level_scene_tag",
 	GAME_CONFIG = "config_scene_tag",
+	TO_DESTROY = "to_destroy_scene_tag",
 }

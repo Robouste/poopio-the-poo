@@ -9,7 +9,7 @@ import {
 	SpriteComp,
 } from "kaplay";
 import { Config } from "../configs";
-import { SpriteName } from "../enums";
+import { GameSceneTag, SpriteName } from "../enums";
 
 export class GameHelper {
 	public static addBackground(
@@ -65,6 +65,7 @@ export class GameHelper {
 			pos(bullet.pos.x, bullet.pos.y - bullet.height),
 			area(),
 			move(LEFT, speed),
+			GameSceneTag.TO_DESTROY,
 		]);
 
 		impact.play("impact");

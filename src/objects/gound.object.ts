@@ -55,6 +55,7 @@ export class Ground {
 			pos(posX, height() - this._config.platformHeight),
 			move(LEFT, 250),
 			z(settings.zIndex),
+			GameSceneTag.TO_DESTROY,
 			{
 				nextAdded: false,
 			},

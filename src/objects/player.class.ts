@@ -18,8 +18,9 @@ export class Player {
 			area(),
 			body(),
 			anchor("botleft"),
-			PlayerTag.PLAYER,
 			z(99),
+			PlayerTag.PLAYER,
+			GameSceneTag.TO_DESTROY,
 		]);
 	}
 
@@ -92,6 +93,7 @@ export class Player {
 			area(),
 			move(RIGHT, 1000),
 			PlayerTag.BULLET,
+			GameSceneTag.TO_DESTROY,
 		]);
 
 		bullet.play("move");

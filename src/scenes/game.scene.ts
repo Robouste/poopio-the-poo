@@ -31,6 +31,7 @@ export class GameScene {
 	private _config: GameConfigComp = add([
 		DebugHelper.isMobile ? getMobileGameConfig() : getDesktopGameConfig(),
 		GameSceneTag.GAME_CONFIG,
+		GameSceneTag.TO_DESTROY,
 	]);
 
 	private _background: GameObj<ColorComp | SpriteComp>;
@@ -43,6 +44,7 @@ export class GameScene {
 		{
 			value: 1,
 		},
+		GameSceneTag.TO_DESTROY,
 	]);
 	private _levelLabel: GameObj<PosComp | TextComp>;
 	private get _difficultySpeed(): number {
@@ -60,12 +62,14 @@ export class GameScene {
 				width: width(),
 			}),
 			this._bgColor,
+			GameSceneTag.TO_DESTROY,
 		]);
 
 		this._levelLabel = add([
 			text(`Level: ${this._level.value}`),
 			pos(24, 60),
 			z(100),
+			GameSceneTag.TO_DESTROY,
 		]);
 
 		setGravity(1800);
@@ -94,6 +98,7 @@ export class GameScene {
 			pos(0, height() - this._config.platformHeight),
 			opacity(0),
 			GameSceneTag.GROUND,
+			GameSceneTag.TO_DESTROY,
 		]);
 
 		const rock = new Ground("rock");
@@ -199,13 +204,19 @@ export class GameScene {
 			pos(width(), rand(0, height() - this._config.platformHeight - 256)),
 			move(LEFT, 50 * this._level.value),
 			GameSceneTag.CLOUD,
+			GameSceneTag.TO_DESTROY,
 		]);
 
 		wait(rand(1, 3), () => this.spawnClouds());
 	}
 
 	private addScore(): void {
-		const scoreLabel = add([text(this.score), pos(24, 24), z(100)]);
+		const scoreLabel = add([
+			text(this.score),
+			pos(24, 24),
+			z(100),
+			GameSceneTag.TO_DESTROY,
+		]);
 
 		loop(0.01, () => {
 			const currentDifficulty = getDifficultyConfig(
@@ -259,6 +270,7 @@ export class GameScene {
 			anchor("center"),
 			animate(),
 			z(100),
+			GameSceneTag.TO_DESTROY,
 		]);
 
 		levelUpText.animate(
@@ -275,6 +287,8 @@ export class GameScene {
 	private gameOver(): void {
 		this._bgm.stop();
 		this._bossMusic?.stop();
+
+		destroyAll(GameSceneTag.TO_DESTROY);
 
 		go(SceneName.GAME_OVER, {
 			score: this.score,
